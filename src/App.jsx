@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useState, useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
@@ -7,10 +7,18 @@ import { CustomCursor } from './CustomCursor';
 // Register GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
+const ROLES = [
+  { line1: "Software", line2: "Developer" },
+  { line1: "Product", line2: "Builder" },
+  { line1: "Fitness", line2: "Enthusiast" },
+  { line1: "Curious", line2: "Mind" }
+];
+
 function App() {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
   const progressBarRef = useRef(null);
+  const [roleIndex, setRoleIndex] = useState(0);
 
   useGSAP(() => {
     const video = videoRef.current;
@@ -135,6 +143,46 @@ function App() {
     };
   }, { scope: containerRef });
 
+  // 7. Calmed Center-Split Baseline Hero Title Rotation
+  useGSAP(() => {
+    // Entrance: Line 1 expands UP from baseline, Line 2 expands DOWN from baseline
+    gsap.fromTo(".line-1-word",
+      { yPercent: 100, opacity: 0, rotateX: 10 },
+      { yPercent: 0, opacity: 1, rotateX: 0, duration: 0.85, ease: "power2.out" }
+    );
+    gsap.fromTo(".line-2-word",
+      { yPercent: -100, opacity: 0, rotateX: -10 },
+      { yPercent: 0, opacity: 1, rotateX: 0, duration: 0.85, ease: "power2.out" }
+    );
+
+    const timer = setTimeout(() => {
+      // Exit: Line 1 collapses DOWN into baseline, Line 2 collapses UP into baseline
+      const tl = gsap.timeline({
+        onComplete: () => {
+          setRoleIndex((prev) => (prev + 1) % ROLES.length);
+        }
+      });
+
+      tl.to(".line-1-word", {
+        yPercent: 100,
+        opacity: 0,
+        rotateX: -10,
+        duration: 0.65,
+        ease: "power2.inOut"
+      }, 0);
+
+      tl.to(".line-2-word", {
+        yPercent: -100,
+        opacity: 0,
+        rotateX: 10,
+        duration: 0.65,
+        ease: "power2.inOut"
+      }, 0);
+    }, 3200);
+
+    return () => clearTimeout(timer);
+  }, { dependencies: [roleIndex], scope: containerRef });
+
   return (
     <div ref={containerRef} className="scroll-container">
       {/* Premium Custom Cursor System */}
@@ -187,7 +235,14 @@ function App() {
             {/* Main Headline */}
             <div className="hero-headline-wrapper hero-animate">
               <span className="hero-subtitle">Hey, I'm a</span>
-              <h2 className="hero-main-title">Software<br />Developer</h2>
+              <h2 className="hero-main-title">
+                <span className="title-line-mask">
+                  <span className="title-word line-1-word">{ROLES[roleIndex].line1}</span>
+                </span>
+                <span className="title-line-mask">
+                  <span className="title-word line-2-word">{ROLES[roleIndex].line2}</span>
+                </span>
+              </h2>
             </div>
 
             {/* Mission Statement Block */}

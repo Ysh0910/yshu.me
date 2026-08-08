@@ -136,7 +136,7 @@ body {
 }
 
 .nav-container {
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 20px 40px;
   display: flex;
@@ -227,7 +227,7 @@ body {
 .layout-content {
   position: relative;
   z-index: 10;
-  max-width: 1200px;
+  max-width: 1400px;
   margin: 0 auto;
   padding: 100px 40px 140px;
 }
@@ -268,6 +268,21 @@ body {
   line-height: 1.0;
   letter-spacing: -0.03em;
   color: var(--text-primary);
+  display: flex;
+  flex-direction: column;
+}
+
+.title-line-mask {
+  display: block;
+  overflow: hidden;
+  perspective: 1000px;
+  padding-bottom: 6px; /* Prevents font descender clipping */
+}
+
+.title-word {
+  display: block;
+  will-change: transform, opacity;
+  transform-origin: 50% 100%;
 }
 
 .hero-mission {
