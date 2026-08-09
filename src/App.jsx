@@ -171,7 +171,7 @@ function App() {
     };
   }, { scope: containerRef });
 
-  // Glitch-free 2-line title animation cycle
+  // 2-line center-split baseline blink animation cycle
   useGSAP(() => {
     const tl = gsap.timeline({
       onComplete: () => {
@@ -179,26 +179,26 @@ function App() {
       }
     });
 
-    // 1. Entrance: Line 1 enters from top (-100%), Line 2 enters from bottom (100%)
+    // 1. ENTRANCE: Words expand out from the middle line (Line 1 expands UP, Line 2 expands DOWN)
     tl.fromTo(".line-1-word",
-      { yPercent: -100, opacity: 0, rotateX: 15 },
-      { yPercent: 0, opacity: 1, rotateX: 0, duration: 0.85, ease: "back.out(1.3)" }
+      { yPercent: 100, opacity: 0, rotateX: 10 },
+      { yPercent: 0, opacity: 1, rotateX: 0, duration: 0.85, ease: "power2.out" }
     );
 
     tl.fromTo(".line-2-word",
-      { yPercent: 100, opacity: 0, rotateX: -15 },
-      { yPercent: 0, opacity: 1, rotateX: 0, duration: 0.85, ease: "back.out(1.3)" },
+      { yPercent: -100, opacity: 0, rotateX: -10 },
+      { yPercent: 0, opacity: 1, rotateX: 0, duration: 0.85, ease: "power2.out" },
       "<"
     );
 
-    // 2. Hold text on screen
+    // 2. HOLD text on screen
     tl.to({}, { duration: 3.2 });
 
-    // 3. Exit: Line 1 exits down (100%), Line 2 exits up (-100%)
+    // 3. EXIT: Words collapse into the middle line (Line 1 collapses DOWN, Line 2 collapses UP)
     tl.to(".line-1-word", {
       yPercent: 100,
       opacity: 0,
-      rotateX: -15,
+      rotateX: -10,
       duration: 0.65,
       ease: "power2.inOut"
     });
@@ -206,7 +206,7 @@ function App() {
     tl.to(".line-2-word", {
       yPercent: -100,
       opacity: 0,
-      rotateX: 15,
+      rotateX: 10,
       duration: 0.65,
       ease: "power2.inOut"
     }, "<");
@@ -338,7 +338,7 @@ function App() {
             <div className="skills-col skills-col-left">
 
               {/* Card 01 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-1 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">01</span>
                   <span className="skill-card-title">LANGUAGES</span>
@@ -353,7 +353,7 @@ function App() {
               </div>
 
               {/* Card 02 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-2 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">02</span>
                   <span className="skill-card-title">FRONTEND</span>
@@ -369,7 +369,7 @@ function App() {
               </div>
 
               {/* Card 05 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-3 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">05</span>
                   <span className="skill-card-title">AI / ML</span>
@@ -384,7 +384,7 @@ function App() {
               </div>
 
               {/* Card 06 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-4 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">06</span>
                   <span className="skill-card-title">BLOCKCHAIN</span>
@@ -411,52 +411,53 @@ function App() {
               <div className="technical-wheel-container">
                 <svg className="technical-wheel-svg" viewBox="0 0 600 600" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <defs>
-                    <linearGradient id="electricOrangePulse" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#ff5722" stopOpacity="1" />
-                      <stop offset="100%" stopColor="#ff007f" stopOpacity="1" />
+                    <linearGradient id="electricSilverPulse" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#ffffff" stopOpacity="1" />
+                      <stop offset="50%" stopColor="#e2e8f0" stopOpacity="0.95" />
+                      <stop offset="100%" stopColor="#94a3b8" stopOpacity="0.6" />
                     </linearGradient>
                   </defs>
 
                   <g className="filament-lines">
                     {/* Path 1: Top Left Card 01 */}
-                    <path d="M 126 126 L 100 130" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 126 126 L 100 130" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-1" strokeLinecap="round" />
-                    <circle cx="100" cy="130" r="3" fill="#ff5722" />
+                    <path d="M 165 165 L -30 65" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 165 165 L -30 65" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-1" strokeLinecap="round" />
+                    <circle cx="-30" cy="65" r="3.5" fill="#ffffff" />
 
                     {/* Path 2: Mid Left Card 02 */}
-                    <path d="M 62 230 L 80 230" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 62 230 L 80 230" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-2" strokeLinecap="round" />
-                    <circle cx="80" cy="230" r="3" fill="#ff007f" />
+                    <path d="M 111 249 L -30 200" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 111 249 L -30 200" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-2" strokeLinecap="round" />
+                    <circle cx="-30" cy="200" r="3.5" fill="#e2e8f0" />
 
                     {/* Path 3: Lower Left Card 05 */}
-                    <path d="M 62 370 L 80 370" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 62 370 L 80 370" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-3" strokeLinecap="round" />
-                    <circle cx="80" cy="370" r="3" fill="#ff5722" />
+                    <path d="M 111 351 L -30 400" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 111 351 L -30 400" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-3" strokeLinecap="round" />
+                    <circle cx="-30" cy="400" r="3.5" fill="#ffffff" />
 
                     {/* Path 4: Bottom Left Card 06 */}
-                    <path d="M 126 474 L 100 470" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 126 474 L 100 470" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-4" strokeLinecap="round" />
-                    <circle cx="100" cy="470" r="3" fill="#ff007f" />
+                    <path d="M 165 435 L -30 535" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 165 435 L -30 535" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-4" strokeLinecap="round" />
+                    <circle cx="-30" cy="535" r="3.5" fill="#e2e8f0" />
 
                     {/* Path 5: Top Right Card 03 */}
-                    <path d="M 474 126 L 500 130" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 474 126 L 500 130" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-5" strokeLinecap="round" />
-                    <circle cx="500" cy="130" r="3" fill="#ff5722" />
+                    <path d="M 435 165 L 630 65" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 435 165 L 630 65" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-5" strokeLinecap="round" />
+                    <circle cx="630" cy="65" r="3.5" fill="#ffffff" />
 
                     {/* Path 6: Mid Right Card 04 */}
-                    <path d="M 538 230 L 520 230" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 538 230 L 520 230" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-6" strokeLinecap="round" />
-                    <circle cx="520" cy="230" r="3" fill="#ff007f" />
+                    <path d="M 489 249 L 630 200" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 489 249 L 630 200" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-6" strokeLinecap="round" />
+                    <circle cx="630" cy="200" r="3.5" fill="#e2e8f0" />
 
                     {/* Path 7: Lower Right Card 07 */}
-                    <path d="M 538 370 L 520 370" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 538 370 L 520 370" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-7" strokeLinecap="round" />
-                    <circle cx="520" cy="370" r="3" fill="#ff5722" />
+                    <path d="M 489 351 L 630 400" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 489 351 L 630 400" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-7" strokeLinecap="round" />
+                    <circle cx="630" cy="400" r="3.5" fill="#ffffff" />
 
                     {/* Path 8: Bottom Right Card 08 */}
-                    <path d="M 474 474 L 500 470" stroke="rgba(226, 232, 240, 0.18)" strokeWidth="1.2" />
-                    <path d="M 474 474 L 500 470" stroke="url(#electricOrangePulse)" strokeWidth="2.2" className="pulse-line pulse-line-8" strokeLinecap="round" />
-                    <circle cx="500" cy="470" r="3" fill="#ff007f" />
+                    <path d="M 435 435 L 630 535" stroke="rgba(226, 232, 240, 0.22)" strokeWidth="1.5" />
+                    <path d="M 435 435 L 630 535" stroke="url(#electricSilverPulse)" strokeWidth="2.5" className="pulse-line pulse-line-8" strokeLinecap="round" />
+                    <circle cx="630" cy="535" r="3.5" fill="#e2e8f0" />
                   </g>
                 </svg>
               </div>
@@ -467,7 +468,7 @@ function App() {
             <div className="skills-col skills-col-right">
 
               {/* Card 03 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-5 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">03</span>
                   <span className="skill-card-title">BACKEND</span>
@@ -480,7 +481,7 @@ function App() {
               </div>
 
               {/* Card 04 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-6 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">04</span>
                   <span className="skill-card-title">DATABASES</span>
@@ -492,7 +493,7 @@ function App() {
               </div>
 
               {/* Card 07 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-7 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">07</span>
                   <span className="skill-card-title">TOOLS & TECHNOLOGIES</span>
@@ -507,7 +508,7 @@ function App() {
               </div>
 
               {/* Card 08 */}
-              <div className="skill-card skill-card-animate magnetic-target">
+              <div className="skill-card skill-card-animate skill-card-charge-8 magnetic-target">
                 <div className="skill-card-header">
                   <span className="skill-card-num">08</span>
                   <span className="skill-card-title">METHODOLOGIES</span>

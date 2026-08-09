@@ -76,21 +76,20 @@ export default function TechOrb() {
     const colors = new Float32Array(particleCount * 3);
 
     const colorPalette = [
-      new THREE.Color(0xffffff), // Crisp White
-      new THREE.Color(0xe2e8f0), // Soft Silver
-      new THREE.Color(0xc0c0c0), // Metallic Chrome
-      new THREE.Color(0x94a3b8)  // Slate Silver
+      new THREE.Color(0xffffff),
+      new THREE.Color(0xe2e8f0),
+      new THREE.Color(0xc0c0c0),
+      new THREE.Color(0x94a3b8)
     ];
 
     for (let i = 0; i < particleCount; i++) {
-      // Distribute particles inside and near sphere surface
-      const radius = 1.4 + Math.random() * 0.48;
+      const r = 1.4 + Math.random() * 0.48;
       const theta = Math.random() * Math.PI * 2;
       const phi = Math.acos((Math.random() * 2) - 1);
 
-      positions[i * 3] = radius * Math.sin(phi) * Math.cos(theta);
-      positions[i * 3 + 1] = radius * Math.sin(phi) * Math.sin(theta);
-      positions[i * 3 + 2] = radius * Math.cos(phi);
+      positions[i * 3] = r * Math.sin(phi) * Math.cos(theta);
+      positions[i * 3 + 1] = r * Math.sin(phi) * Math.sin(theta);
+      positions[i * 3 + 2] = r * Math.cos(phi);
 
       const c = colorPalette[Math.floor(Math.random() * colorPalette.length)];
       colors[i * 3] = c.r;
@@ -113,12 +112,11 @@ export default function TechOrb() {
     const particleSystem = new THREE.Points(particlesGeo, particlesMat);
     scene.add(particleSystem);
 
-    // 7. Animation Loop
+    // 7. Animation Loop - Smooth 3D Rotations
     let animationFrameId;
     const animate = () => {
       animationFrameId = requestAnimationFrame(animate);
 
-      // Slow 3D rotations
       glassSphere.rotation.y += 0.003;
       wireSphere.rotation.y -= 0.002;
       wireSphere.rotation.x += 0.001;
@@ -144,7 +142,6 @@ export default function TechOrb() {
     };
     window.addEventListener('resize', handleResize);
 
-    // Clean up on unmount
     return () => {
       window.removeEventListener('resize', handleResize);
       cancelAnimationFrame(animationFrameId);
@@ -167,10 +164,8 @@ export default function TechOrb() {
 
   return (
     <div className="tech-orb-wrapper">
-      {/* 3D WebGL Canvas Container */}
       <div ref={mountRef} className="tech-orb-canvas" />
 
-      {/* Stationary Center Overlay Label */}
       <div className="tech-orb-center-label magnetic-target">
         <span className="orb-title">TECHNICAL</span>
         <span className="orb-accent">ARSENAL</span>

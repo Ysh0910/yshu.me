@@ -311,8 +311,15 @@ body {
 .title-word {
   display: block;
   will-change: transform, opacity;
-  transform-origin: 50% 50%;
   backface-visibility: hidden;
+}
+
+.line-1-word {
+  transform-origin: 50% 100%;
+}
+
+.line-2-word {
+  transform-origin: 50% 0%;
 }
 
 .hero-mission {
@@ -903,6 +910,7 @@ body {
   height: 100%;
   pointer-events: none;
   z-index: 5;
+  overflow: visible;
 }
 
 .technical-wheel-svg {
@@ -1079,9 +1087,35 @@ body {
   border-radius: 16px;
   padding: 22px 24px;
   position: relative;
-  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.3s ease, box-shadow 0.3s ease;
   will-change: transform, border-color, box-shadow;
   box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+/* Staggered Subtle Energy Responses (No Border Animations) */
+.skill-card-charge-1 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0s; }
+.skill-card-charge-2 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.4s; }
+.skill-card-charge-3 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.8s; }
+.skill-card-charge-4 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.2s; }
+.skill-card-charge-5 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.6s; }
+.skill-card-charge-6 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.0s; }
+.skill-card-charge-7 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.4s; }
+.skill-card-charge-8 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.8s; }
+
+/* Subtle shadow glow response when line energy arrives at the card */
+@keyframes cardSubtlePulse {
+  0%, 45% {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    border-color: rgba(226, 232, 240, 0.15);
+  }
+  60% {
+    box-shadow: 0 0 20px rgba(255, 255, 255, 0.14), 0 4px 24px rgba(0, 0, 0, 0.5);
+    border-color: rgba(255, 255, 255, 0.35);
+  }
+  80%, 100% {
+    box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+    border-color: rgba(226, 232, 240, 0.15);
+  }
 }
 
 .skill-card:hover {
