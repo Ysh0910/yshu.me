@@ -1,9 +1,17 @@
-import { useState, useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
-import { CustomCursor } from './CustomCursor';
 import TechOrb from './TechOrb';
+import { CustomCursor } from './CustomCursor';
+import {
+  SiPython, SiJavascript, SiCplusplus, SiReact, SiNextdotjs, SiHtml5,
+  SiTailwindcss, SiBootstrap, SiNodedotjs, SiExpress, SiFastapi, SiMongodb,
+  SiPostgresql, SiPandas, SiScikitlearn, SiTensorflow, SiSolidity, SiEthereum,
+  SiGit, SiDocker, SiCloudinary, SiGooglecolab, SiAnthropic
+} from 'react-icons/si';
+import { TbBrandCss3 } from 'react-icons/tb';
+import { FaJava, FaDatabase, FaDiagramProject, FaCodeBranch } from 'react-icons/fa6';
 
 // Register GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
@@ -344,11 +352,11 @@ function App() {
                   <span className="skill-card-title">LANGUAGES</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">Python</span>
-                  <span className="skill-tag">JavaScript</span>
-                  <span className="skill-tag">C++</span>
-                  <span className="skill-tag">Java</span>
-                  <span className="skill-tag">SQL</span>
+                  <span className="skill-tag"><SiPython /> Python</span>
+                  <span className="skill-tag"><SiJavascript /> JavaScript</span>
+                  <span className="skill-tag"><SiCplusplus /> C++</span>
+                  <span className="skill-tag"><FaJava /> Java</span>
+                  <span className="skill-tag"><FaDatabase /> SQL</span>
                 </div>
               </div>
 
@@ -359,12 +367,12 @@ function App() {
                   <span className="skill-card-title">FRONTEND</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">React.js</span>
-                  <span className="skill-tag">Next.js</span>
-                  <span className="skill-tag">HTML</span>
-                  <span className="skill-tag">CSS</span>
-                  <span className="skill-tag">Tailwind CSS</span>
-                  <span className="skill-tag">Bootstrap</span>
+                  <span className="skill-tag"><SiReact /> React.js</span>
+                  <span className="skill-tag"><SiNextdotjs /> Next.js</span>
+                  <span className="skill-tag"><SiHtml5 /> HTML</span>
+                  <span className="skill-tag"><TbBrandCss3 /> CSS</span>
+                  <span className="skill-tag"><SiTailwindcss /> Tailwind CSS</span>
+                  <span className="skill-tag"><SiBootstrap /> Bootstrap</span>
                 </div>
               </div>
 
@@ -375,10 +383,10 @@ function App() {
                   <span className="skill-card-title">AI / ML</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">Pandas</span>
-                  <span className="skill-tag">scikit-learn</span>
-                  <span className="skill-tag">NLTK</span>
-                  <span className="skill-tag">TensorFlow</span>
+                  <span className="skill-tag"><SiPandas /> Pandas</span>
+                  <span className="skill-tag"><SiScikitlearn /> scikit-learn</span>
+                  <span className="skill-tag"><SiPython /> NLTK</span>
+                  <span className="skill-tag"><SiTensorflow /> TensorFlow</span>
                   <span className="skill-tag">Vosk</span>
                 </div>
               </div>
@@ -390,9 +398,9 @@ function App() {
                   <span className="skill-card-title">BLOCKCHAIN</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">Solidity</span>
-                  <span className="skill-tag">Ether.js</span>
-                  <span className="skill-tag">MetaMask</span>
+                  <span className="skill-tag"><SiSolidity /> Solidity</span>
+                  <span className="skill-tag"><SiEthereum /> Ether.js</span>
+                  <span className="skill-tag"><SiEthereum /> MetaMask</span>
                 </div>
               </div>
 
@@ -474,9 +482,9 @@ function App() {
                   <span className="skill-card-title">BACKEND</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">Node.js</span>
-                  <span className="skill-tag">Express.js</span>
-                  <span className="skill-tag">FastAPI</span>
+                  <span className="skill-tag"><SiNodedotjs /> Node.js</span>
+                  <span className="skill-tag"><SiExpress /> Express.js</span>
+                  <span className="skill-tag"><SiFastapi /> FastAPI</span>
                 </div>
               </div>
 
@@ -487,8 +495,8 @@ function App() {
                   <span className="skill-card-title">DATABASES</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">MongoDB</span>
-                  <span className="skill-tag">PostgreSQL</span>
+                  <span className="skill-tag"><SiMongodb /> MongoDB</span>
+                  <span className="skill-tag"><SiPostgresql /> PostgreSQL</span>
                 </div>
               </div>
 
@@ -499,11 +507,11 @@ function App() {
                   <span className="skill-card-title">TOOLS & TECHNOLOGIES</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">Git</span>
-                  <span className="skill-tag">Docker</span>
-                  <span className="skill-tag">Cloudinary</span>
-                  <span className="skill-tag">Google Colab</span>
-                  <span className="skill-tag">Claude Code</span>
+                  <span className="skill-tag"><SiGit /> Git</span>
+                  <span className="skill-tag"><SiDocker /> Docker</span>
+                  <span className="skill-tag"><SiCloudinary /> Cloudinary</span>
+                  <span className="skill-tag"><SiGooglecolab /> Google Colab</span>
+                  <span className="skill-tag"><SiAnthropic /> Claude Code</span>
                 </div>
               </div>
 
@@ -514,8 +522,8 @@ function App() {
                   <span className="skill-card-title">METHODOLOGIES</span>
                 </div>
                 <div className="skill-tags-wrapper">
-                  <span className="skill-tag">Agile</span>
-                  <span className="skill-tag">SDLC</span>
+                  <span className="skill-tag"><FaDiagramProject /> Agile</span>
+                  <span className="skill-tag"><FaCodeBranch /> SDLC</span>
                 </div>
               </div>
 

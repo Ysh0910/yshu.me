@@ -44,7 +44,7 @@ export default function TechOrb() {
     const glassSphere = new THREE.Mesh(sphereGeo, glassMat);
     scene.add(glassSphere);
 
-    // 4. Outer Wireframe Latitude Ring Sphere - Silver
+    // 4. Outer Wireframe Latitude Ring Sphere - Cool Silver
     const wireGeo = new THREE.SphereGeometry(1.87, 24, 24);
     const wireMat = new THREE.MeshBasicMaterial({
       color: 0xe2e8f0,
@@ -55,7 +55,7 @@ export default function TechOrb() {
     const wireSphere = new THREE.Mesh(wireGeo, wireMat);
     scene.add(wireSphere);
 
-    // 5. Concentric Angled Orbital Rings - Metallic Chrome / Silver
+    // 5. Concentric Angled Orbital Rings - Metallic Chrome / Cool Silver
     const ringGeo1 = new THREE.TorusGeometry(2.02, 0.012, 16, 100);
     const ringMat1 = new THREE.MeshBasicMaterial({ color: 0xcbd5e1, transparent: true, opacity: 0.55 });
     const ring1 = new THREE.Mesh(ringGeo1, ringMat1);
@@ -169,7 +169,6 @@ export default function TechOrb() {
       <div className="tech-orb-center-label magnetic-target">
         <span className="orb-title">TECHNICAL</span>
         <span className="orb-accent">ARSENAL</span>
-        <span className="orb-subtext">THE STACK</span>
       </div>
     </div>
   );

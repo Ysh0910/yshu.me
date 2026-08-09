@@ -814,11 +814,11 @@ body {
   overflow: hidden;
 }
 
-/* Scroll-Driven Scrim Overlay (Solid #0a0a0f, Default CSS opacity: 0 prevents flash on load) */
+/* Scroll-Driven Scrim Overlay (Pure Solid #150318 Overlay) */
 .skills-scrim {
   position: absolute;
   inset: 0;
-  background-color: #0a0a0f;
+  background-color: #150318;
   z-index: 1;
   pointer-events: none;
   opacity: 0;
@@ -858,7 +858,7 @@ body {
   font-weight: 800;
   line-height: 1.05;
   letter-spacing: -0.02em;
-  color: var(--text-primary);
+  color: #ffffff;
   margin-bottom: 20px;
   text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
 }
@@ -866,7 +866,7 @@ body {
 .skills-intro-text {
   font-size: 20px;
   font-style: italic;
-  color: var(--text-secondary);
+  color: #c9bdd1;
   max-width: 600px;
   text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
 }
@@ -1058,6 +1058,7 @@ body {
   letter-spacing: 0.14em;
   color: #ffffff;
   line-height: 1.15;
+  text-shadow: 0 0 20px rgba(180, 50, 120, 0.35);
 }
 
 .orb-accent {
@@ -1069,27 +1070,25 @@ body {
   line-height: 1.15;
 }
 
-.orb-subtext {
-  font-size: 9px;
-  font-weight: 600;
-  letter-spacing: 0.22em;
-  color: var(--text-secondary);
-  text-transform: uppercase;
-  margin-top: 4px;
-}
-
-/* Skill Cards (Silver / Chrome Dark Modules) */
+/* Skill Cards (True Translucent Glassmorphism) */
 .skill-card {
-  background: rgba(18, 20, 29, 0.92);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(226, 232, 240, 0.15);
+  background: rgba(20, 10, 25, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(226, 189, 209, 0.15);
   border-radius: 16px;
   padding: 22px 24px;
   position: relative;
-  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), border-color 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
   will-change: transform, border-color, box-shadow;
-  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.14), 0 4px 24px rgba(0, 0, 0, 0.45);
+}
+
+.skill-card:hover {
+  border-color: rgba(226, 189, 209, 0.35);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25), 0 0 25px rgba(180, 50, 120, 0.15);
+  background: rgba(30, 15, 38, 0.55);
+  transform: translateY(-3px);
 }
 
 /* Staggered Subtle Energy Responses (No Border Animations) */
@@ -1101,6 +1100,16 @@ body {
 .skill-card-charge-6 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.0s; }
 .skill-card-charge-7 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.4s; }
 .skill-card-charge-8 { animation: cardSubtlePulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.8s; }
+
+/* Staggered Icon Accent Glow Pulse Synced with Card Energy Arrival */
+.skill-card-charge-1 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0s; }
+.skill-card-charge-2 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.4s; }
+.skill-card-charge-3 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 0.8s; }
+.skill-card-charge-4 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.2s; }
+.skill-card-charge-5 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 1.6s; }
+.skill-card-charge-6 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.0s; }
+.skill-card-charge-7 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.4s; }
+.skill-card-charge-8 .skill-tag svg { animation: iconSilverPulse 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite 2.8s; }
 
 /* Subtle shadow glow response when line energy arrives at the card */
 @keyframes cardSubtlePulse {
@@ -1116,6 +1125,13 @@ body {
     box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
     border-color: rgba(226, 232, 240, 0.15);
   }
+}
+
+/* Icon Silver Pulse transition during card charge */
+@keyframes iconSilverPulse {
+  0%, 45% { color: #94a3b8; transform: scale(1); filter: none; }
+  60% { color: #ffffff; transform: scale(1.12); filter: drop-shadow(0 0 5px rgba(255, 255, 255, 0.6)); }
+  80%, 100% { color: #94a3b8; transform: scale(1); filter: none; }
 }
 
 .skill-card:hover {
@@ -1146,7 +1162,7 @@ body {
   font-family: var(--font-heading);
   font-size: 14px;
   font-weight: 700;
-  color: #fff;
+  color: #ffffff;
   letter-spacing: 0.05em;
 }
 
@@ -1157,15 +1173,24 @@ body {
 }
 
 .skill-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   font-size: 12px;
   font-weight: 600;
-  color: #e2e8f0;
-  background: rgba(255, 255, 255, 0.05);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  padding: 5px 14px;
+  color: #94a3b8;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 5px 13px;
   border-radius: 20px;
-  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.skill-tag svg {
+  font-size: 14px;
+  color: #94a3b8;
+  transition: color 0.3s ease, transform 0.3s ease;
 }
 
 .skill-card:hover .skill-tag {
@@ -1173,6 +1198,10 @@ body {
   border-color: rgba(255, 255, 255, 0.35);
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+.skill-card:hover .skill-tag svg {
+  color: #ffffff;
 }
 
 /* Transition Outro Banner */
