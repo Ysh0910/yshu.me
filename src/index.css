@@ -3,17 +3,17 @@
 :root {
   --font-heading: 'Outfit', sans-serif;
   --font-body: 'Inter', sans-serif;
-  
+
   --bg-dark: #0b0c10;
   --bg-card: rgba(15, 17, 26, 0.7);
   --border-glass: rgba(255, 255, 255, 0.08);
-  
+
   /* Vibrant Accent from reference image */
   --accent-orange: #ff5722;
   --text-primary: #ffffff;
   --text-secondary: #c5c6c7;
   --text-muted: #8f94a5;
-  
+
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -44,7 +44,14 @@ body {
   * {
     cursor: none !important;
   }
-  a, button, [role="button"], input, select, textarea, .magnetic-target {
+
+  a,
+  button,
+  [role="button"],
+  input,
+  select,
+  textarea,
+  .magnetic-target {
     cursor: none !important;
   }
 }
@@ -81,13 +88,11 @@ body {
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(
-    180deg, 
-    rgba(11, 12, 16, 0.6) 0%, 
-    rgba(11, 12, 16, 0.3) 40%, 
-    rgba(11, 12, 16, 0.7) 80%,
-    rgba(11, 12, 16, 0.95) 100__
-  );
+  background: linear-gradient(180deg,
+      rgba(11, 12, 16, 0.6) 0%,
+      rgba(11, 12, 16, 0.3) 40%,
+      rgba(11, 12, 16, 0.7) 80%,
+      rgba(11, 12, 16, 0.95) 100__);
   z-index: 2;
   pointer-events: none;
 }
@@ -125,7 +130,7 @@ body {
 
 /* Fixed Navigation Header */
 .header-nav {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   width: 100%;
@@ -223,21 +228,44 @@ body {
   color: var(--accent-orange);
 }
 
-/* Layout Content Wrapper */
+/* Fixed Page Background Layer */
+.fixed-background-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  background: var(--bg-dark);
+  pointer-events: none;
+}
+
+/* Layout Content Wrapper - Full Bleed 100vw */
 .layout-content {
   position: relative;
   z-index: 10;
+  width: 100%;
+  max-width: none;
+  margin: 0;
+  padding: 0;
+}
+
+/* Inner Section Content Containers (Constrained to 1400px max-width) */
+.hero-inner,
+.skills-inner,
+.projects-inner {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 100px 40px 140px;
+  padding: 0 40px;
+  width: 100%;
+  position: relative;
+  z-index: 5;
 }
 
 /* Hero Section */
 .hero-section-content {
-  min-height: 90vh;
+  min-height: calc(100vh - 140px);
   display: flex;
-  align-items: center;
-  padding: 80px 0;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 300px 0 20px;
 }
 
 .hero-grid {
@@ -245,7 +273,7 @@ body {
   display: grid;
   grid-template-columns: 1.2fr 0.8fr;
   grid-template-rows: auto auto;
-  gap: 80px 40px;
+  gap: 60px 40px;
   align-items: end;
 }
 
@@ -276,13 +304,15 @@ body {
   display: block;
   overflow: hidden;
   perspective: 1000px;
-  padding-bottom: 6px; /* Prevents font descender clipping */
+  transform-style: preserve-3d;
+  padding: 4px 0 8px;
 }
 
 .title-word {
   display: block;
   will-change: transform, opacity;
-  transform-origin: 50% 100%;
+  transform-origin: 50% 50%;
+  backface-visibility: hidden;
 }
 
 .hero-mission {
@@ -310,12 +340,13 @@ body {
 
 /* Services Grid Row */
 .services-grid {
+  margin-top: 30px;
   grid-column: 1 / span 2;
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 24px;
   border-top: 1px solid rgba(255, 255, 255, 0.1);
-  padding-top: 40px;
+  padding-top: 50px;
 }
 
 .service-card {
@@ -602,30 +633,30 @@ body {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  
+
   .hero-mission {
     grid-row: 2;
   }
-  
+
   .services-grid {
     grid-column: 1;
     grid-row: 3;
     grid-template-columns: repeat(2, 1fr);
   }
-  
+
   .hero-main-title {
     font-size: 64px;
   }
-  
+
   .about-container {
     grid-template-columns: 1fr;
     gap: 40px;
   }
-  
+
   .about-title {
     font-size: 40px;
   }
-  
+
   .projects-section .projects-grid {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -635,36 +666,37 @@ body {
   .layout-content {
     padding: 80px 24px 100px;
   }
-  
+
   .nav-container {
     padding: 16px 24px;
   }
-  
+
   .nav-links {
-    display: none; /* Hide link menu on small viewports for simplicity */
+    display: none;
+    /* Hide link menu on small viewports for simplicity */
   }
-  
+
   .hero-main-title {
     font-size: 48px;
   }
-  
+
   .mission-text {
     font-size: 22px;
   }
-  
+
   .brands-container {
     padding: 30px;
   }
-  
+
   .brands-grid {
     justify-content: center;
   }
-  
+
   .projects-section .projects-grid {
     grid-template-columns: 1fr;
     gap: 24px;
   }
-  
+
   .services-grid {
     grid-template-columns: 1fr;
     gap: 16px;
@@ -675,8 +707,10 @@ body {
    Premium Custom Cursor & Particle Trail Styles
    ========================================================================== */
 
-.custom-cursor, .cursor-trail-dot {
-  display: none; /* Hidden by default; shown only on hover-capable pointer devices */
+.custom-cursor,
+.cursor-trail-dot {
+  display: none;
+  /* Hidden by default; shown only on hover-capable pointer devices */
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -687,7 +721,8 @@ body {
     left: 0;
     width: 12px;
     height: 12px;
-    margin-top: -6px; /* Centered relative to the registration point */
+    margin-top: -6px;
+    /* Centered relative to the registration point */
     margin-left: -6px;
     background-color: transparent;
     border: 1px solid rgba(255, 255, 255, 0.45);
@@ -696,10 +731,11 @@ body {
     z-index: 9999;
     backdrop-filter: blur(4px);
     box-shadow: 0 0 15px rgba(255, 0, 127, 0.25);
-    transform: translate3d(0, 0, 0); /* GPU acceleration */
+    transform: translate3d(0, 0, 0);
+    /* GPU acceleration */
     will-change: transform, width, height, border-radius, background-color, box-shadow;
     /* Smooth transitions for dimensions, alignment offset, border, and glow effects */
-    transition: 
+    transition:
       width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
       height 0.3s cubic-bezier(0.19, 1, 0.22, 1),
       margin-top 0.3s cubic-bezier(0.19, 1, 0.22, 1),
@@ -727,7 +763,7 @@ body {
   }
 
   /* Interaction States (Classes applied via Javascript) */
-  
+
   /* Buttons and large targets: expands into a soft glass circle */
   .custom-cursor.hover-button {
     width: 28px;
@@ -745,7 +781,8 @@ body {
     height: 16px;
     margin-top: -8px;
     margin-left: -18px;
-    border-radius: 8px; /* Capsule corners */
+    border-radius: 8px;
+    /* Capsule corners */
     border-color: rgba(255, 255, 255, 0.7);
     background-color: transparent;
     box-shadow: 0 0 20px rgba(255, 0, 127, 0.35);
@@ -754,5 +791,430 @@ body {
   /* Clicking state: scales down */
   .custom-cursor.click-active {
     transform: translate3d(0, 0, 0) scale(0.8);
+  }
+}
+
+/* ==========================================================================
+   SKILLS / STACK SECTION ("WHAT'S UNDER THE HOOD?")
+   ========================================================================== */
+
+.skills-section {
+  padding: 60px 0 100px;
+  position: relative;
+  background-color: transparent;
+  z-index: 20;
+  width: 100%;
+  overflow: hidden;
+}
+
+/* Scroll-Driven Scrim Overlay (Solid #0a0a0f, Default CSS opacity: 0 prevents flash on load) */
+.skills-scrim {
+  position: absolute;
+  inset: 0;
+  background-color: #0a0a0f;
+  z-index: 1;
+  pointer-events: none;
+  opacity: 0;
+  will-change: opacity;
+}
+
+/* Explicit Stacking Context above .skills-scrim (z-index: 1) */
+.skills-header,
+.skills-wrapper,
+.skills-outro-banner,
+.skill-card {
+  position: relative;
+  z-index: 5;
+}
+
+.skills-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 60px;
+  padding-top: 15px;
+}
+
+.skills-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-orange);
+  margin-bottom: 24px;
+}
+
+.skills-main-title {
+  font-family: var(--font-heading);
+  font-size: 64px;
+  font-weight: 800;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+  margin-bottom: 20px;
+  text-shadow: 0 2px 20px rgba(0, 0, 0, 0.9);
+}
+
+.skills-intro-text {
+  font-size: 20px;
+  font-style: italic;
+  color: var(--text-secondary);
+  max-width: 600px;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+}
+
+/* Master Grid Layout: 2 Columns Flanking the Centerpiece */
+.skills-wrapper {
+  position: relative;
+  display: grid;
+  grid-template-columns: 1fr 500px 1fr;
+  gap: 30px;
+  align-items: center;
+}
+
+.skills-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* Center Piece Container (Non-sticky, centered column) */
+.skills-centerpiece {
+  position: relative;
+  width: 500px;
+  height: 500px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+  z-index: 10;
+}
+
+/* Completely transparent backplate */
+.wheel-glass-backplate {
+  display: none;
+}
+
+.technical-wheel-container {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 5;
+}
+
+.technical-wheel-svg {
+  width: 100%;
+  height: 100%;
+  overflow: visible;
+}
+
+/* ROTATION ANIMATIONS - ONLY SVG RINGS ROTATE */
+.ring-outer {
+  animation: rotateCW 28s linear infinite;
+  transform-origin: 300px 300px;
+}
+
+.ring-middle {
+  animation: rotateCCW 38s linear infinite;
+  transform-origin: 300px 300px;
+}
+
+.ring-inner {
+  animation: rotateCW 48s linear infinite;
+  transform-origin: 300px 300px;
+}
+
+@keyframes rotateCW {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotateCCW {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(-360deg);
+  }
+}
+
+/* Electrical Energy Pulse Traveling Along Filaments */
+.pulse-line {
+  stroke-dasharray: 14 180;
+  animation: pulseTravel 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+.pulse-line-1 {
+  animation-delay: 0s;
+}
+
+.pulse-line-2 {
+  animation-delay: 0.4s;
+}
+
+.pulse-line-3 {
+  animation-delay: 0.8s;
+}
+
+.pulse-line-4 {
+  animation-delay: 1.2s;
+}
+
+.pulse-line-5 {
+  animation-delay: 1.6s;
+}
+
+.pulse-line-6 {
+  animation-delay: 2.0s;
+}
+
+.pulse-line-7 {
+  animation-delay: 2.4s;
+}
+
+.pulse-line-8 {
+  animation-delay: 2.8s;
+}
+
+@keyframes pulseTravel {
+  0% {
+    stroke-dashoffset: 200;
+    opacity: 0;
+  }
+
+  15% {
+    opacity: 1;
+  }
+
+  85% {
+    opacity: 1;
+  }
+
+  100% {
+    stroke-dashoffset: 0;
+    opacity: 0;
+  }
+}
+
+/* 3D Tech Orb Centerpiece Container */
+.tech-orb-wrapper {
+  position: relative;
+  width: 450px;
+  height: 450px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto;
+}
+
+.tech-orb-canvas {
+  width: 100%;
+  height: 100%;
+}
+
+/* Completely transparent stationary center label */
+.tech-orb-center-label {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: transparent;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  border: none;
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+.orb-title {
+  font-family: var(--font-heading);
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 0.14em;
+  color: #ffffff;
+  line-height: 1.15;
+}
+
+.orb-accent {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 800;
+  letter-spacing: 0.18em;
+  color: var(--accent-orange);
+  line-height: 1.15;
+}
+
+.orb-subtext {
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 0.22em;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  margin-top: 4px;
+}
+
+/* Skill Cards (Silver / Chrome Dark Modules) */
+.skill-card {
+  background: rgba(18, 20, 29, 0.92);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(226, 232, 240, 0.15);
+  border-radius: 16px;
+  padding: 22px 24px;
+  position: relative;
+  transition: all 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+  will-change: transform, border-color, box-shadow;
+  box-shadow: 0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.skill-card:hover {
+  border-color: rgba(255, 255, 255, 0.45);
+  box-shadow: 0 0 25px rgba(255, 255, 255, 0.08);
+  background: rgba(22, 25, 36, 0.96);
+  transform: translateY(-3px);
+}
+
+.skill-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+  padding-bottom: 8px;
+}
+
+.skill-card-num {
+  font-family: var(--font-heading);
+  font-size: 11px;
+  font-weight: 700;
+  color: #94a3b8;
+  letter-spacing: 0.08em;
+}
+
+.skill-card-title {
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+
+.skill-tags-wrapper {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.skill-tag {
+  font-size: 12px;
+  font-weight: 600;
+  color: #e2e8f0;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  padding: 5px 14px;
+  border-radius: 20px;
+  transition: all 0.25s cubic-bezier(0.19, 1, 0.22, 1);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
+}
+
+.skill-card:hover .skill-tag {
+  color: #ffffff;
+  border-color: rgba(255, 255, 255, 0.35);
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 12px rgba(255, 255, 255, 0.1);
+}
+
+/* Transition Outro Banner */
+.skills-outro-banner {
+  margin-top: 120px;
+  padding-top: 60px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.outro-subtitle {
+  font-size: 14px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--accent-orange);
+  margin-bottom: 12px;
+}
+
+.outro-main-title {
+  font-family: var(--font-heading);
+  font-size: 52px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: var(--text-primary);
+}
+
+/* Responsive Rules for Skills Section */
+@media (max-width: 1280px) {
+  .skills-wrapper {
+    grid-template-columns: 1fr;
+    gap: 50px;
+  }
+
+  .skills-centerpiece {
+    grid-row: 1;
+    width: 400px;
+    height: 400px;
+  }
+
+  .skills-col-left {
+    grid-row: 2;
+  }
+
+  .skills-col-right {
+    grid-row: 3;
+  }
+}
+
+@media (max-width: 768px) {
+  .skills-main-title {
+    font-size: 42px;
+  }
+
+  .skills-intro-text {
+    font-size: 16px;
+  }
+
+  .skills-centerpiece {
+    width: 300px;
+    height: 300px;
+  }
+
+  .wheel-center-label {
+    width: 110px;
+    height: 110px;
+  }
+
+  .center-name {
+    font-size: 11px;
+  }
+
+  .outro-main-title {
+    font-size: 36px;
   }
 }
