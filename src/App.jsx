@@ -4,6 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import TechOrb from './TechOrb';
 import { CustomCursor } from './CustomCursor';
+import { PROJECTS_DATA, DEFAULT_PROJECT_IMAGE } from './data/projectsData';
 import {
   SiPython, SiJavascript, SiCplusplus, SiReact, SiNextdotjs, SiHtml5,
   SiTailwindcss, SiBootstrap, SiNodedotjs, SiExpress, SiFastapi, SiMongodb,
@@ -12,8 +13,8 @@ import {
 } from 'react-icons/si';
 import { TbBrandCss3 } from 'react-icons/tb';
 import { FaJava, FaDatabase, FaDiagramProject, FaCodeBranch } from 'react-icons/fa6';
+import { FiExternalLink, FiGithub, FiChevronDown, FiChevronUp } from 'react-icons/fi';
 
-// Register GSAP ScrollTrigger plugin
 gsap.registerPlugin(ScrollTrigger);
 
 const ROLES = [
@@ -29,6 +30,14 @@ function App() {
   const progressBarRef = useRef(null);
   const scrimRef = useRef(null);
   const [roleIndex, setRoleIndex] = useState(0);
+  const [isExpanded, setIsExpanded] = useState(false);
+  const [activeTouchCardId, setActiveTouchCardId] = useState(null);
+
+  const displayedProjects = isExpanded ? PROJECTS_DATA : PROJECTS_DATA.slice(0, 4);
+
+  const handleCardTouch = (id) => {
+    setActiveTouchCardId((prev) => (prev === id ? null : id));
+  };
 
   useGSAP(() => {
     const video = videoRef.current;
@@ -147,24 +156,6 @@ function App() {
           }
         }
       );
-
-      // 7. Portfolio Showcase Cards Entrance
-      gsap.fromTo(".project-card",
-        { opacity: 0, y: 60, scale: 0.96 },
-        {
-          opacity: 1,
-          y: 0,
-          scale: 1,
-          duration: 1,
-          stagger: 0.2,
-          ease: "power3.out",
-          scrollTrigger: {
-            trigger: ".projects-section",
-            start: "top 80%",
-            toggleActions: "play none none reverse"
-          }
-        }
-      );
     };
 
     if (video.readyState >= 1) {
@@ -252,7 +243,6 @@ function App() {
           <nav className="nav-links">
             <a href="#home" className="nav-item magnetic-target">Home</a>
             <a href="#stack" className="nav-item magnetic-target">Stack</a>
-            <a href="#projects" className="nav-item magnetic-target">Projects</a>
           </nav>
           <button className="btn-get-touch magnetic-target">
             <span>Get in touch</span>
@@ -541,32 +531,87 @@ function App() {
 
         </section>
 
-        {/* Section 4: Projects Showcase Grid */}
+        {/* Section 4: Projects Showcase Grid (#070912 Ink-Blue Theme) */}
         <section id="projects" className="projects-section">
           <div className="projects-inner">
             <div className="projects-grid">
+              {displayedProjects.map((project) => {
+                const isActive = activeTouchCardId === project.id;
+                return (
+                  <div
+                    key={project.id}
+                    className={`f1-project-card magnetic-target ${isActive ? 'is-active' : ''}`}
+                    onClick={() => handleCardTouch(project.id)}
+                  >
+                    {/* Main Clipped Image & Curtain Container (Notched Corner Shape) */}
+                    <div className="f1-card-image-box">
+                      <img
+                        src={project.image || DEFAULT_PROJECT_IMAGE}
+                        alt={project.name}
+                        className="f1-card-image"
+                      />
 
-              <div className="project-card magnetic-target">
-                <div className="project-image-wrapper">
-                  <img src="/puffer-jacket.png" alt="Black puffer jacket" />
-                </div>
-              </div>
+                      {/* Curtain Slide-Down Reveal Overlay (Slides down INSIDE the notched shape) */}
+                      <div className="f1-card-curtain">
+                        <div className="curtain-header-block">
+                          <h4 className="curtain-project-name">{project.name}</h4>
+                          <p className="curtain-desc">{project.description}</p>
+                        </div>
 
-              <div className="project-card magnetic-target">
-                <div className="project-image-wrapper">
-                  <img src="/headphones.png" alt="Minimalist headphones editorial" />
-                </div>
-              </div>
+                        <div className="curtain-contrib-block">
+                          <span className="curtain-contrib-label">Key Contribution</span>
+                          <span className="curtain-contrib-text">{project.contribution}</span>
+                        </div>
 
-              <div className="project-card magnetic-target">
-                <div className="project-image-wrapper">
-                  <img src="/cosmetic-bottle.png" alt="Cosmetic glass dropper bottle" />
-                </div>
-              </div>
+                        <div className="curtain-actions">
+                          <a href={project.liveUrl} className="btn-project-action btn-live" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                            <span>Live Demo</span>
+                            <FiExternalLink />
+                          </a>
+                          <a href={project.githubUrl} className="btn-project-action btn-github" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
+                            <span>GitHub</span>
+                            <FiGithub />
+                          </a>
+                        </div>
+                      </div>
 
+                      {/* Card Footer Bar inside Notched Frame */}
+                      <div className="f1-card-footer">
+                        <h3 className="f1-card-title">{project.name}</h3>
+                        <span className={`f1-status-badge ${project.team === 'solo' ? 'badge-solo' : 'badge-team'}`}>
+                          {project.team === 'solo' ? 'Solo Build' : 'Team Build'}
+                        </span>
+                      </div>
+                    </div>
+
+                    {/* Absolute Responsive SVG Border Outline Overlay */}
+                    <svg className="f1-card-svg-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      <path
+                        d="M 5,2 L 95,2 A 4,4 0 0 1 99,6 L 99,95 A 4,4 0 0 1 95,99 L 64,99 C 57,99 55,92 48,92 L 5,92 A 4,4 0 0 1 1,88 L 1,6 A 4,4 0 0 1 5,2 Z"
+                        vectorEffect="non-scaling-stroke"
+                        stroke="rgba(226, 189, 209, 0.4)"
+                        strokeWidth="1.8"
+                        fill="none"
+                      />
+                    </svg>
+                  </div>
+                );
+              })}
+            </div>
+
+            {/* "See All Projects" Expansion Button */}
+            <div className="btn-see-all-wrapper">
+              <button
+                className="btn-see-all-projects magnetic-target"
+                onClick={() => setIsExpanded((prev) => !prev)}
+              >
+                <span>{isExpanded ? 'Show Less' : 'See All Projects'}</span>
+                {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
+              </button>
             </div>
           </div>
         </section>
+
 
       </main>
 
