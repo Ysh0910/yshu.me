@@ -243,6 +243,7 @@ function App() {
           <nav className="nav-links">
             <a href="#home" className="nav-item magnetic-target">Home</a>
             <a href="#stack" className="nav-item magnetic-target">Stack</a>
+            <a href="#projects" className="nav-item magnetic-target">Projects</a>
           </nav>
           <button className="btn-get-touch magnetic-target">
             <span>Get in touch</span>

@@ -1445,7 +1445,7 @@ body {
   border: 1px solid rgba(201, 189, 209, 0.3);
 }
 
-/* Curtain Slide-Down Overlay */
+/* Curtain Slide-Down Wave Overlay */
 .f1-card-curtain {
   position: absolute;
   inset: 0;
@@ -1457,13 +1457,44 @@ body {
   flex-direction: column;
   justify-content: space-between;
   transform: translateY(-100%);
-  transition: transform 0.45s cubic-bezier(0.19, 1, 0.22, 1);
+  opacity: 0;
+  transition: transform 0.85s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.5s ease;
   z-index: 20;
 }
 
 .f1-project-card:hover .f1-card-curtain,
 .f1-project-card.is-active .f1-card-curtain {
   transform: translateY(0);
+  opacity: 1;
+}
+
+.curtain-header-block,
+.curtain-contrib-block,
+.curtain-actions {
+  opacity: 0;
+  transform: translateY(-15px);
+  transition: opacity 0.5s ease, transform 0.65s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.f1-project-card:hover .curtain-header-block,
+.f1-project-card.is-active .curtain-header-block {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.f1-project-card:hover .curtain-contrib-block,
+.f1-project-card.is-active .curtain-contrib-block {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.32s;
+}
+
+.f1-project-card:hover .curtain-actions,
+.f1-project-card.is-active .curtain-actions {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.44s;
 }
 
 .curtain-header-block {
