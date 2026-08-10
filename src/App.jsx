@@ -544,16 +544,20 @@ function App() {
                     className={`f1-project-card magnetic-target ${isActive ? 'is-active' : ''}`}
                     onClick={() => handleCardTouch(project.id)}
                   >
-                    {/* Main Clipped Image & Curtain Container (Notched Corner Shape) */}
-                    <div className="f1-card-image-box">
-                      <img
-                        src={project.image || DEFAULT_PROJECT_IMAGE}
-                        alt={project.name}
-                        className="f1-card-image"
-                      />
+                    {/* Framed Website Screenshot & Details Viewport */}
+                    <div className="f1-screenshot-frame">
+                      {/* Layer 1: Front Website Image (Base Layer) */}
+                      <div className="f1-card-image-cover">
+                        <img
+                          src={project.image || DEFAULT_PROJECT_IMAGE}
+                          alt={project.name}
+                          className="f1-card-image"
+                        />
+                        <div className="f1-image-overlay-scrim" />
+                      </div>
 
-                      {/* Curtain Slide-Down Reveal Overlay (Slides down INSIDE the notched shape) */}
-                      <div className="f1-card-curtain">
+                      {/* Layer 2: Details Liquid Droplet Overlay (Expands DOWN from top-center on hover) */}
+                      <div className="f1-card-details-bg">
                         <div className="curtain-header-block">
                           <h4 className="curtain-project-name">{project.name}</h4>
                           <p className="curtain-desc">{project.description}</p>
@@ -563,34 +567,52 @@ function App() {
                           <span className="curtain-contrib-label">Key Contribution</span>
                           <span className="curtain-contrib-text">{project.contribution}</span>
                         </div>
-
-                        <div className="curtain-actions">
-                          <a href={project.liveUrl} className="btn-project-action btn-live" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
-                            <span>Live Demo</span>
-                            <FiExternalLink />
-                          </a>
-                          <a href={project.githubUrl} className="btn-project-action btn-github" onClick={(e) => e.stopPropagation()} target="_blank" rel="noopener noreferrer">
-                            <span>GitHub</span>
-                            <FiGithub />
-                          </a>
-                        </div>
-                      </div>
-
-                      {/* Card Footer Bar inside Notched Frame */}
-                      <div className="f1-card-footer">
-                        <h3 className="f1-card-title">{project.name}</h3>
-                        <span className={`f1-status-badge ${project.team === 'solo' ? 'badge-solo' : 'badge-team'}`}>
-                          {project.team === 'solo' ? 'Solo Build' : 'Team Build'}
-                        </span>
                       </div>
                     </div>
+
+                    {/* Card Footer Bar inside Notched Frame */}
+                    <div className="f1-card-footer">
+                        <h3 className="f1-card-title">{project.name}</h3>
+
+                        <div className="f1-card-tab-right">
+                          {/* Default Status Badge */}
+                          <span className={`f1-status-badge ${project.team === 'solo' ? 'badge-solo' : 'badge-team'}`}>
+                            {project.team === 'solo' ? 'Solo Build' : 'Team Build'}
+                          </span>
+
+                          {/* Hover Action Buttons (Live Demo + Clickable GitHub Logo Icon) */}
+                          <div className="f1-hover-actions">
+                            <a
+                              href={project.liveUrl}
+                              className="btn-tab-action btn-tab-live"
+                              onClick={(e) => e.stopPropagation()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="Live Demo"
+                            >
+                              <span>Live Demo</span>
+                              <FiExternalLink />
+                            </a>
+                            <a
+                              href={project.githubUrl}
+                              className="btn-tab-action btn-tab-github"
+                              onClick={(e) => e.stopPropagation()}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              title="GitHub Repository"
+                            >
+                              <FiGithub />
+                            </a>
+                          </div>
+                        </div>
+                      </div>
 
                     {/* Absolute Responsive SVG Border Outline Overlay */}
                     <svg className="f1-card-svg-overlay" viewBox="0 0 100 100" preserveAspectRatio="none">
                       <path
-                        d="M 5,2 L 95,2 A 4,4 0 0 1 99,6 L 99,95 A 4,4 0 0 1 95,99 L 64,99 C 57,99 55,92 48,92 L 5,92 A 4,4 0 0 1 1,88 L 1,6 A 4,4 0 0 1 5,2 Z"
+                        d="M 6,1 L 94,1 A 6,6 0 0 1 99.5,7 L 99.5,93 A 6,6 0 0 1 94,99 L 63,99 C 56,99 54,92 47,92 L 6,92 A 6,6 0 0 1 0.5,86 L 0.5,7 A 6,6 0 0 1 6,1 Z"
                         vectorEffect="non-scaling-stroke"
-                        stroke="rgba(226, 189, 209, 0.4)"
+                        stroke="rgba(226, 189, 209, 0.45)"
                         strokeWidth="1.8"
                         fill="none"
                       />
