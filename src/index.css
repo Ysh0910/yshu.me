@@ -1302,10 +1302,9 @@ body {
 
 .projects-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 28px;
   width: 100%;
-  transition: all 0.4s ease;
 }
 
 @media (max-width: 1199px) {
@@ -1557,7 +1556,7 @@ body {
   pointer-events: none;
 }
 
-/* Layer 2: Details Liquid Droplet Overlay (Expands DOWN from Top-Center 50% 0% on Hover) */
+/* Top Layer: Details Overlay (Sweeps Top-To-Bottom in ONE smooth, slow 750ms go) */
 .f1-card-details-bg {
   position: absolute;
   inset: 0;
@@ -1570,16 +1569,37 @@ body {
   justify-content: flex-start;
   gap: 14px;
   z-index: 20;
-  clip-path: ellipse(0% 0% at 50% 0%);
+  clip-path: polygon(-10% -10%, 110% -10%, 110% -10%, 50% 10%, -10% -10%);
   opacity: 0;
-  transition: clip-path 2.0s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.6s ease;
+  transition: clip-path 0.75s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.4s ease;
   will-change: clip-path, opacity;
 }
 
 .f1-project-card:hover .f1-card-details-bg,
 .f1-project-card.is-active .f1-card-details-bg {
-  clip-path: ellipse(180% 180% at 50% 0%);
+  clip-path: polygon(-10% -10%, 110% -10%, 110% 120%, 50% 135%, -10% 120%);
   opacity: 1;
+}
+
+.curtain-header-block,
+.curtain-contrib-block {
+  opacity: 0;
+  transform: translateY(-8px);
+  transition: opacity 0.5s ease 0.15s, transform 0.6s cubic-bezier(0.22, 1, 0.36, 1) 0.15s;
+}
+
+.f1-project-card:hover .curtain-header-block,
+.f1-project-card.is-active .curtain-header-block {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.2s;
+}
+
+.f1-project-card:hover .curtain-contrib-block,
+.f1-project-card.is-active .curtain-contrib-block {
+  opacity: 1;
+  transform: translateY(0);
+  transition-delay: 0.32s;
 }
 
 .curtain-header-block,
