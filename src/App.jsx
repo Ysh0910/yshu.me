@@ -1,11 +1,12 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useCallback, useEffect } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
+import { LayoutGroup, AnimatePresence, motion } from 'framer-motion';
 import TechOrb from './TechOrb';
 import { CustomCursor } from './CustomCursor';
 import { PROJECTS_DATA, DEFAULT_PROJECT_IMAGE } from './data/projectsData';
-import { ProjectCard } from './ProjectCard';
+import { ProjectCard, ExpandedCard } from './ProjectCard';
 import {
   SiPython, SiJavascript, SiCplusplus, SiReact, SiNextdotjs, SiHtml5,
   SiTailwindcss, SiBootstrap, SiNodedotjs, SiExpress, SiFastapi, SiMongodb,
@@ -33,9 +34,69 @@ function App() {
   const scrimRef = useRef(null);
   const [roleIndex, setRoleIndex] = useState(0);
   const [isExpanded, setIsExpanded] = useState(false);
+  const [expandedId, setExpandedId] = useState(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const stageRef = useRef(null);
+
   const displayedProjects = isExpanded ? PROJECTS_DATA : PROJECTS_DATA.slice(0, 4);
+  const expandedProject = expandedId
+    ? PROJECTS_DATA.find((p) => p.id === expandedId)
+    : null;
+
+  // Ensure images have fallback
+  const projectsWithImages = displayedProjects.map((p) => ({
+    ...p,
+    image: p.image || DEFAULT_PROJECT_IMAGE,
+  }));
+
+  // Mobile detection
+  useEffect(() => {
+    const check = () => setIsMobile(window.innerWidth <= 768);
+    check();
+    window.addEventListener('resize', check);
+    return () => window.removeEventListener('resize', check);
+  }, []);
+
+  // Close on Escape key
+  useEffect(() => {
+    const handleKey = (e) => {
+      if (e.key === 'Escape') setExpandedId(null);
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, []);
+
+  // Lock body scroll when expanded on mobile
+  useEffect(() => {
+    if (isMobile && expandedId) {
+      document.body.style.overflow = 'hidden';
+      return () => { document.body.style.overflow = ''; };
+    }
+  }, [isMobile, expandedId]);
+
+  const handleExpand = useCallback((id) => {
+    setExpandedId(id);
+  }, []);
+
+  const handleCollapse = useCallback(() => {
+    setExpandedId(null);
+  }, []);
+
+  // Auto-scroll so expanded stage card is fully visible
+  useEffect(() => {
+    if (!expandedId || !stageRef.current) return;
+    // Brief delay so Framer Motion spring has started and the DOM is in position
+    const timer = setTimeout(() => {
+      stageRef.current.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest',
+      });
+    }, 80);
+    return () => clearTimeout(timer);
+  }, [expandedId]);
 
   useGSAP(() => {
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -531,20 +592,49 @@ function App() {
         {/* Section 4: Projects Showcase Grid (#070912 Ink-Blue Theme) */}
         <section id="projects" className="projects-section">
           <div className="projects-inner">
-            <div className="projects-grid">
-              {displayedProjects.map((project) => (
-                <ProjectCard
-                  key={project.id}
-                  name={project.name}
-                  image={project.image || DEFAULT_PROJECT_IMAGE}
-                  status={project.team === 'solo' ? 'Solo Build' : 'Team Build'}
-                  description={project.description}
-                  contribution={project.contribution}
-                  liveUrl={project.liveUrl}
-                  githubUrl={project.githubUrl}
+            <LayoutGroup>
+              <div className="projects-grid">
+                {/* Spotlight stage area — occupies cols 2-3 rows 1-3 when a card is expanded */}
+                <AnimatePresence>
+                  {expandedId && expandedProject && (
+                    <div
+                      className="sp-stage"
+                      ref={stageRef}
+                    >
+                      <ExpandedCard
+                        key={expandedId}
+                        project={{ ...expandedProject, image: expandedProject.image || DEFAULT_PROJECT_IMAGE }}
+                        onCollapse={handleCollapse}
+                      />
+                    </div>
+                  )}
+                </AnimatePresence>
+
+                {projectsWithImages.map((project) => (
+                  <ProjectCard
+                    key={project.id}
+                    project={project}
+                    isExpanded={project.id === expandedId}
+                    isFaded={expandedId !== null && project.id !== expandedId}
+                    onExpand={handleExpand}
+                  />
+                ))}
+              </div>
+            </LayoutGroup>
+
+            {/* Scrim overlay when expanded */}
+            <AnimatePresence>
+              {expandedId && (
+                <motion.div
+                  className="sp-scrim"
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.25 }}
+                  onClick={handleCollapse}
                 />
-              ))}
-            </div>
+              )}
+            </AnimatePresence>
 
             {/* "See All Projects" Expansion Button */}
             <div className="btn-see-all-wrapper">
