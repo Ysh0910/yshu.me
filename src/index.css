@@ -806,7 +806,7 @@ body {
    ========================================================================== */
 
 .skills-section {
-  padding: 60px 0 100px;
+  padding: 60px 0 0px;
   position: relative;
   background-color: transparent;
   z-index: 20;
@@ -1207,12 +1207,24 @@ body {
 /* Transition Outro Banner */
 .skills-outro-banner {
   margin-top: 45px;
-  padding-top: 30px;
-  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding: 60px 20px 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
+  /* Gradient: transparent top (video/scrim shows through) → ink-blue at bottom
+     This merges the plum scrim fade-out directly into the projects background */
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    rgba(7, 9, 18, 0.6) 50%,
+    #070912 100%
+  );
+  /* Stretch edge-to-edge so the gradient covers full width */
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: calc(50vw - 50% + 20px);
+  padding-right: calc(50vw - 50% + 20px);
 }
 
 .outro-subtitle {
@@ -1290,8 +1302,17 @@ body {
   position: relative;
   z-index: 10;
   background: #070912;
-  padding: 60px 0 120px;
+  padding: 0 0 70px;
   width: 100%;
+}
+
+/* Top gradient bridge: ensures zero hard edge between skills outro and projects */
+.projects-section::before {
+  content: '';
+  display: block;
+  height: 60px;
+  background: linear-gradient(to bottom, #070912, #070912);
+  pointer-events: none;
 }
 
 .projects-inner {
@@ -1361,4 +1382,382 @@ body {
   border-color: rgba(255, 87, 34, 0.6);
   box-shadow: 0 0 24px rgba(255, 87, 34, 0.3);
   transform: translateY(-2px);
+}
+
+
+/* ==========================================================================
+   SECTION 5: CTA / CONTACT SECTION
+   ========================================================================== */
+
+.cta-section {
+  position: relative;
+  z-index: 10;
+  background: #070912;
+  width: 100%;
+  overflow: hidden;
+  padding: 20px 0 0;
+}
+
+/* Subtle dot-grid background pattern with soft radial blend */
+.cta-grid-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.035) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.035) 1px, transparent 1px);
+  background-size: 48px 48px;
+  mask-image: radial-gradient(ellipse 90% 75% at 50% 35%, black 30%, transparent 95%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 75% at 50% 35%, black 30%, transparent 95%);
+}
+
+/* Soft ambient dividing glow between projects and CTA */
+.cta-section::before {
+  content: '';
+  display: block;
+  width: 90%;
+  max-width: 900px;
+  height: 1px;
+  margin: 0 auto;
+  background: linear-gradient(90deg, transparent 0%, rgba(255, 87, 34, 0.3) 50%, transparent 100%);
+  position: relative;
+  z-index: 1;
+  box-shadow: 0 0 16px rgba(255, 87, 34, 0.15);
+}
+
+.cta-inner {
+  position: relative;
+  z-index: 2;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 70px 40px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 80px;
+}
+
+/* ── Hero copy block ───────────────────────────────────────────── */
+.cta-hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 24px;
+}
+
+.cta-eyebrow {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.15em;
+  color: var(--accent-orange);
+  opacity: 0.85;
+}
+
+.cta-heading {
+  font-family: var(--font-heading);
+  font-size: clamp(52px, 8vw, 96px);
+  font-weight: 800;
+  line-height: 1.0;
+  letter-spacing: -0.03em;
+  color: #ffffff;
+  text-transform: uppercase;
+}
+
+.cta-heading-accent {
+  /* Hot gradient from orange → pink to match the site's energy */
+  background: linear-gradient(100deg, #ff5722 0%, #ff3a8c 60%, #d94bff 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.cta-subtext {
+  font-size: 17px;
+  line-height: 1.65;
+  color: #8f94a5;
+  max-width: 520px;
+}
+
+/* CTA Primary Button */
+.btn-cta-primary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 42px;
+  border-radius: 40px;
+  background: linear-gradient(120deg, #ff5722, #ff3a8c);
+  color: #fff;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease, filter 0.3s ease;
+  box-shadow: 0 8px 32px rgba(255, 87, 34, 0.35);
+  margin-top: 8px;
+}
+
+.btn-cta-primary:hover {
+  transform: translateY(-3px) scale(1.02);
+  box-shadow: 0 14px 48px rgba(255, 58, 140, 0.45);
+  filter: brightness(1.08);
+}
+
+/* CTA Buttons Group */
+.cta-buttons-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin-top: 16px;
+  flex-wrap: wrap;
+}
+
+/* Secondary CTA Button (Download Resume) */
+.btn-cta-secondary {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  padding: 16px 42px;
+  border-radius: 40px;
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: #e2bdd1;
+  font-family: var(--font-heading);
+  font-size: 14px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-decoration: none;
+  transition: transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease, border-color 0.3s ease, color 0.3s ease, background 0.3s ease;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.15);
+}
+
+.btn-cta-secondary:hover {
+  transform: translateY(-3px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.18);
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ── Contact + Social grid ─────────────────────────────────────── */
+.cta-contact-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  width: 100%;
+}
+
+/* Let's Talk Card */
+.cta-talk-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 20px;
+  padding: 40px 36px;
+  display: flex;
+  flex-direction: column;
+  gap: 28px;
+}
+
+.cta-talk-title {
+  font-family: var(--font-heading);
+  font-size: 32px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+  color: #ffffff;
+}
+
+.cta-talk-divider {
+  width: 48px;
+  height: 3px;
+  background: linear-gradient(90deg, #ff5722, #ff3a8c);
+  border-radius: 2px;
+  margin-top: -16px;
+}
+
+.cta-talk-item {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.cta-talk-label {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--accent-orange);
+  text-transform: uppercase;
+}
+
+.cta-talk-value {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  color: #c5c6c7;
+  text-decoration: none;
+  transition: color 0.2s ease;
+}
+
+a.cta-talk-value:hover {
+  color: #ffffff;
+}
+
+.cta-status-online {
+  color: #4ade80;
+}
+
+.cta-status-dot {
+  display: inline-block;
+  width: 8px;
+  height: 8px;
+  background: #4ade80;
+  border-radius: 50%;
+  box-shadow: 0 0 8px rgba(74, 222, 128, 0.7);
+  animation: statusPulse 2s ease-in-out infinite;
+}
+
+@keyframes statusPulse {
+  0%, 100% { box-shadow: 0 0 8px rgba(74, 222, 128, 0.7); }
+  50% { box-shadow: 0 0 18px rgba(74, 222, 128, 1); }
+}
+
+/* 2×2 Social Grid */
+.cta-social-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.cta-social-card {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 16px;
+  padding: 24px 22px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  text-decoration: none;
+  color: #c5c6c7;
+  transition: background 0.3s ease, border-color 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1), box-shadow 0.3s ease;
+}
+
+.cta-social-card:hover {
+  background: rgba(255, 87, 34, 0.06);
+  border-color: rgba(255, 87, 34, 0.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 32px rgba(255, 58, 140, 0.12);
+  color: #ffffff;
+}
+
+.cta-social-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  color: #8f94a5;
+  margin-bottom: 4px;
+  transition: color 0.3s ease;
+}
+
+.cta-social-card:hover .cta-social-top {
+  color: #ffffff;
+}
+
+.cta-social-arrow {
+  opacity: 0;
+  transform: translateX(-4px) translateY(4px);
+  transition: opacity 0.3s ease, transform 0.3s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.cta-social-card:hover .cta-social-arrow {
+  opacity: 1;
+  transform: translateX(0) translateY(0);
+}
+
+.cta-social-name {
+  font-family: var(--font-heading);
+  font-size: 18px;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.cta-social-handle {
+  font-size: 12px;
+  color: #8f94a5;
+  letter-spacing: 0.04em;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+/* ── Footer Bar ────────────────────────────────────────────────── */
+.cta-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255, 255, 255, 0.07);
+  padding: 28px 0 36px;
+  flex-wrap: wrap;
+  gap: 16px;
+}
+
+.cta-footer-brand {
+  font-family: var(--font-heading);
+  font-size: 16px;
+  font-weight: 800;
+  letter-spacing: 0.1em;
+  color: #ffffff;
+}
+
+.cta-footer-nav {
+  display: flex;
+  gap: 28px;
+}
+
+.cta-footer-link {
+  font-size: 12px;
+  color: #8f94a5;
+  text-decoration: none;
+  letter-spacing: 0.06em;
+  transition: color 0.2s ease;
+}
+
+.cta-footer-link:hover {
+  color: #ffffff;
+}
+
+.cta-footer-copy {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: #8f94a5;
+}
+
+/* ── Responsive ─────────────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .cta-contact-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-inner {
+    padding: 80px 24px 0;
+    gap: 56px;
+  }
+
+  .cta-footer {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+}
+
+@media (max-width: 600px) {
+  .cta-social-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .cta-heading {
+    font-size: 44px;
+  }
 }

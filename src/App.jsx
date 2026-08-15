@@ -15,7 +15,7 @@ import {
 } from 'react-icons/si';
 import { TbBrandCss3 } from 'react-icons/tb';
 import { FaJava, FaDatabase, FaDiagramProject, FaCodeBranch } from 'react-icons/fa6';
-import { FiExternalLink, FiGithub, FiChevronDown, FiChevronUp } from 'react-icons/fi';
+import { FiExternalLink, FiGithub, FiChevronDown, FiChevronUp, FiMail, FiMapPin, FiSend, FiTwitter, FiInstagram, FiLinkedin, FiArrowUpRight, FiDownload } from 'react-icons/fi';
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -213,6 +213,54 @@ function App() {
           }
         }
       );
+
+      // 6. CTA / Contact Section Reveal Animations
+      gsap.fromTo(".cta-hero-animate",
+        { opacity: 0, y: 40 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 1,
+          stagger: 0.15,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#contact",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
+      gsap.fromTo(".cta-card-animate",
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          stagger: 0.1,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".cta-contact-grid",
+            start: "top 85%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
+      gsap.fromTo(".cta-footer-animate",
+        { opacity: 0, y: 20 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.8,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: ".cta-footer",
+            start: "top 95%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
     };
 
     if (video.readyState >= 1) {
@@ -301,6 +349,7 @@ function App() {
             <a href="#home" className="nav-item magnetic-target">Home</a>
             <a href="#stack" className="nav-item magnetic-target">Stack</a>
             <a href="#projects" className="nav-item magnetic-target">Projects</a>
+            <a href="#contact" className="nav-item magnetic-target">Contact</a>
           </nav>
           <button className="btn-get-touch magnetic-target">
             <span>Get in touch</span>
@@ -646,6 +695,159 @@ function App() {
                 {isExpanded ? <FiChevronUp /> : <FiChevronDown />}
               </button>
             </div>
+          </div>
+        </section>
+
+        {/* Section 5: CTA / Contact */}
+        <section id="contact" className="cta-section">
+          {/* Grid pattern background */}
+          <div className="cta-grid-bg" aria-hidden="true" />
+
+          <div className="cta-inner">
+
+            {/* Top Hero Copy */}
+            <div className="cta-hero">
+              <p className="cta-eyebrow cta-hero-animate">// OPEN TO OPPORTUNITIES</p>
+              <h2 className="cta-heading cta-hero-animate">
+                READY TO BUILD<br />
+                <span className="cta-heading-accent">THE FUTURE?</span>
+              </h2>
+              <p className="cta-subtext cta-hero-animate">
+                Let's collaborate on something extraordinary.<br />
+                High-performance engineering meets thoughtful product design.
+              </p>
+              <div className="cta-buttons-group cta-hero-animate">
+                <a
+                  id="cta-contact-btn"
+                  href="mailto:yashwanth0910@gmail.com"
+                  className="btn-cta-primary magnetic-target"
+                >
+                  <span>INITIALIZE CONTACT</span>
+                  <FiSend size={16} />
+                </a>
+                <a
+                  id="cta-resume-btn"
+                  href="/resume.pdf"
+                  download
+                  className="btn-cta-secondary magnetic-target"
+                >
+                  <span>DOWNLOAD RESUME</span>
+                  <FiDownload size={16} />
+                </a>
+              </div>
+            </div>
+
+            {/* Contact + Social Grid */}
+            <div className="cta-contact-grid">
+
+              {/* Left: Let's Talk card */}
+              <div className="cta-talk-card cta-card-animate">
+                <h3 className="cta-talk-title">LET'S TALK</h3>
+                <div className="cta-talk-divider" />
+
+                <div className="cta-talk-item">
+                  <span className="cta-talk-label">[MSG] // SIGNAL</span>
+                  <a href="mailto:yashwanth0910@gmail.com" className="cta-talk-value magnetic-target">
+                    <FiMail size={14} />
+                    yashwanth0910@gmail.com
+                  </a>
+                </div>
+
+                <div className="cta-talk-item">
+                  <span className="cta-talk-label">[LOC] // COORDS</span>
+                  <span className="cta-talk-value">
+                    <FiMapPin size={14} />
+                    Bengaluru, India
+                  </span>
+                </div>
+
+                <div className="cta-talk-item">
+                  <span className="cta-talk-label">[STATUS] // AVAILABILITY</span>
+                  <span className="cta-talk-value cta-status-online">
+                    <span className="cta-status-dot" />
+                    Available for projects
+                  </span>
+                </div>
+              </div>
+
+              {/* Right: 2×2 Social Links */}
+              <div className="cta-social-grid">
+
+                <a
+                  id="cta-github-link"
+                  href="https://github.com/Ysh0910"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-social-card cta-card-animate magnetic-target"
+                >
+                  <div className="cta-social-top">
+                    <FiGithub size={22} />
+                    <FiArrowUpRight size={16} className="cta-social-arrow" />
+                  </div>
+                  <span className="cta-social-name">GitHub</span>
+                  <span className="cta-social-handle">@Ysh0910</span>
+                </a>
+
+                <a
+                  id="cta-linkedin-link"
+                  href="https://linkedin.com/in/yashwanthshu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-social-card cta-card-animate magnetic-target"
+                >
+                  <div className="cta-social-top">
+                    <FiLinkedin size={22} />
+                    <FiArrowUpRight size={16} className="cta-social-arrow" />
+                  </div>
+                  <span className="cta-social-name">LinkedIn</span>
+                  <span className="cta-social-handle">/in/yashwanthshu</span>
+                </a>
+
+                <a
+                  id="cta-twitter-link"
+                  href="https://twitter.com/yashwanthshu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-social-card cta-card-animate magnetic-target"
+                >
+                  <div className="cta-social-top">
+                    <FiTwitter size={22} />
+                    <FiArrowUpRight size={16} className="cta-social-arrow" />
+                  </div>
+                  <span className="cta-social-name">Twitter</span>
+                  <span className="cta-social-handle">@yashwanthshu</span>
+                </a>
+
+                <a
+                  id="cta-instagram-link"
+                  href="https://instagram.com/yashwanthshu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-social-card cta-card-animate magnetic-target"
+                >
+                  <div className="cta-social-top">
+                    <FiInstagram size={22} />
+                    <FiArrowUpRight size={16} className="cta-social-arrow" />
+                  </div>
+                  <span className="cta-social-name">Instagram</span>
+                  <span className="cta-social-handle">@yashwanthshu</span>
+                </a>
+
+              </div>
+            </div>
+
+            {/* Footer Bar */}
+            <footer className="cta-footer cta-footer-animate">
+              <span className="cta-footer-brand">YASHWANTH</span>
+              <nav className="cta-footer-nav" aria-label="Footer navigation">
+                <a href="#home" className="cta-footer-link magnetic-target">home</a>
+                <a href="#stack" className="cta-footer-link magnetic-target">stack</a>
+                <a href="#projects" className="cta-footer-link magnetic-target">projects</a>
+                <a href="#contact" className="cta-footer-link magnetic-target">contact</a>
+              </nav>
+              <span className="cta-footer-copy">© 2025 YASHWANTH. BUILT WITH PASSION.</span>
+            </footer>
+
           </div>
         </section>
 
