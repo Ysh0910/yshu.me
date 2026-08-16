@@ -1,6 +1,6 @@
 import { useRef, useState, useEffect } from "react";
 import { motion, useInView, AnimatePresence } from "framer-motion";
-import { FiExternalLink, FiGithub, FiX } from "react-icons/fi";
+import { FiExternalLink, FiGithub, FiPlay, FiX } from "react-icons/fi";
 import "./project-card.css";
 
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
@@ -105,6 +105,8 @@ export function ExpandedCard({ project, onCollapse }) {
     transition: { duration: 0.35, ease: "easeOut", delay },
   });
 
+  const hasPrimaryDemo = Boolean(project.liveUrl || project.videoUrl);
+
   return (
     <motion.div
       layoutId={project.id}
@@ -145,10 +147,21 @@ export function ExpandedCard({ project, onCollapse }) {
           {project.description}
         </motion.p>
 
-        <motion.p className="sp-expanded__contrib" {...staggerItem(0.24)}>
-          <strong>Contribution:&nbsp;</strong>
-          {project.contribution}
-        </motion.p>
+        {project.highlights && project.highlights.length > 0 ? (
+          <motion.div className="sp-expanded__highlights" {...staggerItem(0.24)}>
+            <strong className="sp-expanded__highlights-title">Key Highlights:</strong>
+            <ul className="sp-expanded__highlights-list">
+              {project.highlights.map((item, idx) => (
+                <li key={idx}>{item}</li>
+              ))}
+            </ul>
+          </motion.div>
+        ) : project.contribution ? (
+          <motion.p className="sp-expanded__contrib" {...staggerItem(0.24)}>
+            <strong>Contribution:&nbsp;</strong>
+            {project.contribution}
+          </motion.p>
+        ) : null}
 
         <motion.div className="sp-expanded__actions" {...staggerItem(0.3)}>
           {project.liveUrl && (
@@ -163,10 +176,24 @@ export function ExpandedCard({ project, onCollapse }) {
               <FiExternalLink size={14} />
             </a>
           )}
+
+          {!project.liveUrl && project.videoUrl && (
+            <a
+              href={project.videoUrl}
+              className="sp-expanded__btn sp-expanded__btn--video"
+              target="_blank"
+              rel="noreferrer"
+              onClick={(e) => e.stopPropagation()}
+            >
+              <span>Watch Demo</span>
+              <FiPlay size={14} />
+            </a>
+          )}
+
           {project.githubUrl && (
             <a
               href={project.githubUrl}
-              className="sp-expanded__btn sp-expanded__btn--gh"
+              className={`sp-expanded__btn sp-expanded__btn--gh ${!hasPrimaryDemo ? "sp-expanded__btn--full" : ""}`}
               target="_blank"
               rel="noreferrer"
               onClick={(e) => e.stopPropagation()}

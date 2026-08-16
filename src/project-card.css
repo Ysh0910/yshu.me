@@ -231,6 +231,34 @@
   color: rgba(255, 255, 255, 0.85);
 }
 
+.sp-expanded__highlights {
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  padding-top: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.sp-expanded__highlights-title {
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  font-weight: 700;
+}
+
+.sp-expanded__highlights-list {
+  margin: 0;
+  padding-left: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.sp-expanded__highlights-list li {
+  font-size: 0.84rem;
+  line-height: 1.5;
+  color: rgba(255, 255, 255, 0.7);
+}
+
 .sp-expanded__actions {
   display: flex;
   gap: 10px;
@@ -251,13 +279,15 @@
   transition: background 200ms ease, box-shadow 200ms ease;
 }
 
-.sp-expanded__btn--live {
+.sp-expanded__btn--live,
+.sp-expanded__btn--video {
   color: #fff;
   background: rgba(255, 87, 34, 0.2);
   border: 1px solid rgba(255, 87, 34, 0.4);
 }
 
-.sp-expanded__btn--live:hover {
+.sp-expanded__btn--live:hover,
+.sp-expanded__btn--video:hover {
   background: rgba(255, 87, 34, 0.35);
   box-shadow: 0 0 20px rgba(255, 87, 34, 0.25);
 }
@@ -271,6 +301,11 @@
 .sp-expanded__btn--gh:hover {
   background: rgba(255, 255, 255, 0.16);
   box-shadow: 0 0 16px rgba(255, 255, 255, 0.1);
+}
+
+.sp-expanded__btn--full {
+  width: 100%;
+  justify-content: center;
 }
 
 /* ---------- Close button (mobile + optional desktop) ---------- */

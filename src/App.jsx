@@ -351,7 +351,7 @@ function App() {
             <a href="#projects" className="nav-item magnetic-target">Projects</a>
             <a href="#contact" className="nav-item magnetic-target">Contact</a>
           </nav>
-          <button className="btn-get-touch magnetic-target">
+          <a href="#contact" className="btn-get-touch magnetic-target">
             <span>Get in touch</span>
             <div className="arrow-circle">
               <svg viewBox="0 0 24 24" width="14" height="14" stroke="currentColor" strokeWidth="3" fill="none" strokeLinecap="round" strokeLinejoin="round">
@@ -359,7 +359,7 @@ function App() {
                 <polyline points="12 5 19 12 12 19"></polyline>
               </svg>
             </div>
-          </button>
+          </a>
         </div>
       </header>
 
@@ -720,7 +720,7 @@ function App() {
               <div className="cta-buttons-group cta-hero-animate">
                 <a
                   id="cta-contact-btn"
-                  href="mailto:yashwanth0910@gmail.com"
+                  href="mailto:yash59109845@gmail.com"
                   className="btn-cta-primary magnetic-target"
                 >
                   <span>INITIALIZE CONTACT</span>
@@ -729,7 +729,7 @@ function App() {
                 <a
                   id="cta-resume-btn"
                   href="/resume.pdf"
-                  download
+                  download="Yashwanth_G_Resume.pdf"
                   className="btn-cta-secondary magnetic-target"
                 >
                   <span>DOWNLOAD RESUME</span>
@@ -748,9 +748,9 @@ function App() {
 
                 <div className="cta-talk-item">
                   <span className="cta-talk-label">[MSG] // SIGNAL</span>
-                  <a href="mailto:yashwanth0910@gmail.com" className="cta-talk-value magnetic-target">
+                  <a href="mailto:yash59109845@gmail.com" className="cta-talk-value magnetic-target">
                     <FiMail size={14} />
-                    yashwanth0910@gmail.com
+                    yash59109845@gmail.com
                   </a>
                 </div>
 
@@ -791,7 +791,7 @@ function App() {
 
                 <a
                   id="cta-linkedin-link"
-                  href="https://linkedin.com/in/yashwanthshu"
+                  href="https://www.linkedin.com/in/yashwanth910/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-social-card cta-card-animate magnetic-target"
@@ -801,12 +801,12 @@ function App() {
                     <FiArrowUpRight size={16} className="cta-social-arrow" />
                   </div>
                   <span className="cta-social-name">LinkedIn</span>
-                  <span className="cta-social-handle">/in/yashwanthshu</span>
+                  <span className="cta-social-handle">/in/yashwanth910</span>
                 </a>
 
                 <a
                   id="cta-leetcode-link"
-                  href="https://leetcode.com/u/Ysh0910/"
+                  href="https://leetcode.com/u/yashurtv/"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-social-card cta-card-animate magnetic-target"
@@ -816,12 +816,12 @@ function App() {
                     <FiArrowUpRight size={16} className="cta-social-arrow" />
                   </div>
                   <span className="cta-social-name">LeetCode</span>
-                  <span className="cta-social-handle">@Ysh0910</span>
+                  <span className="cta-social-handle">@yashurtv</span>
                 </a>
 
                 <a
                   id="cta-twitter-link"
-                  href="https://twitter.com/yashwanthshu"
+                  href="https://x.com/YashG910"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-social-card cta-card-animate magnetic-target"
@@ -831,12 +831,12 @@ function App() {
                     <FiArrowUpRight size={16} className="cta-social-arrow" />
                   </div>
                   <span className="cta-social-name">Twitter</span>
-                  <span className="cta-social-handle">@yashwanthshu</span>
+                  <span className="cta-social-handle">@YashG910</span>
                 </a>
 
                 <a
                   id="cta-instagram-link"
-                  href="https://instagram.com/yashwanthshu"
+                  href="https://www.instagram.com/__yash.g___?igsh=cHp0dzFjMnFpbnc="
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-social-card cta-card-animate magnetic-target"
@@ -846,12 +846,12 @@ function App() {
                     <FiArrowUpRight size={16} className="cta-social-arrow" />
                   </div>
                   <span className="cta-social-name">Instagram</span>
-                  <span className="cta-social-handle">@yashwanthshu</span>
+                  <span className="cta-social-handle">@__yash.g___</span>
                 </a>
 
                 <a
                   id="cta-discord-link"
-                  href="https://discord.com/users/yashwanthshu"
+                  href="https://discord.com/users/captainyash_"
                   target="_blank"
                   rel="noopener noreferrer"
                   className="cta-social-card cta-card-animate magnetic-target"
@@ -861,7 +861,7 @@ function App() {
                     <FiArrowUpRight size={16} className="cta-social-arrow" />
                   </div>
                   <span className="cta-social-name">Discord</span>
-                  <span className="cta-social-handle">@yashwanthshu</span>
+                  <span className="cta-social-handle">@captainyash_</span>
                 </a>
 
               </div>
