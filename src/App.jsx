@@ -797,8 +797,8 @@ function App() {
                 </a>
                 <a
                   id="cta-resume-btn"
-                  href="/resume.pdf"
-                  download="Yashwanth_G_Resume.pdf"
+                  href="/YashwanthG-Resume.pdf"
+                  download="YashwanthG-Resume.pdf"
                   className="btn-cta-secondary magnetic-target"
                 >
                   <span>DOWNLOAD RESUME</span>
