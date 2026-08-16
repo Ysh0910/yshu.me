@@ -9,6 +9,8 @@ export function CustomCursor() {
   const prevMouse = useRef({ x: 0, y: 0 });
   const velocity = useRef(0);
   const isHoverSupported = useRef(false);
+  const activeMagneticRef = useRef(null);
+  const targetsCacheRef = useRef([]);
 
   const [hoverState, setHoverState] = useState(null); // 'button' | 'link' | null
 
@@ -42,6 +44,44 @@ export function CustomCursor() {
       gsap.quickTo(dot, "y", { duration: 0.08 * (i + 1), ease: "power2.out" })
     );
 
+    // Cache magnetic targets and their geometries to eliminate layout thrashing
+    const updateMagneticCache = () => {
+      const elements = document.querySelectorAll('a, button, .magnetic-target, .hud, .scroll-icon');
+      const cache = [];
+      const scrollX = window.scrollX || window.pageXOffset;
+      const scrollY = window.scrollY || window.pageYOffset;
+
+      elements.forEach(el => {
+        const rect = el.getBoundingClientRect();
+        // Ignore hidden / zero-sized elements
+        if (rect.width === 0 && rect.height === 0) return;
+        cache.push({
+          el,
+          // Store document coordinates
+          docCenterX: rect.left + scrollX + rect.width / 2,
+          docCenterY: rect.top + scrollY + rect.height / 2,
+          width: rect.width,
+          height: rect.height
+        });
+      });
+      targetsCacheRef.current = cache;
+    };
+
+    // Initial cache populate
+    updateMagneticCache();
+
+    // Schedule throttled updates on scroll / resize / DOM changes
+    let cacheUpdatePending = false;
+    const scheduleCacheUpdate = () => {
+      if (!cacheUpdatePending) {
+        cacheUpdatePending = true;
+        requestAnimationFrame(() => {
+          updateMagneticCache();
+          cacheUpdatePending = false;
+        });
+      }
+    };
+
     const handleMouseMove = (e) => {
       const mx = e.clientX;
       const my = e.clientY;
@@ -55,64 +95,71 @@ export function CustomCursor() {
       let targetX = mx;
       let targetY = my;
       let closestEl = null;
+      let closestCenterX = 0;
+      let closestCenterY = 0;
 
-      // Select magnetic elements (links, buttons, HUD widget, scroll icon)
-      const targets = document.querySelectorAll('a, button, .magnetic-target, .hud, .scroll-icon');
+      const scrollX = window.scrollX || window.pageXOffset;
+      const scrollY = window.scrollY || window.pageYOffset;
+      const pageMouseX = mx + scrollX;
+      const pageMouseY = my + scrollY;
+
+      const targets = targetsCacheRef.current;
       let closestDist = 99999;
 
-      targets.forEach(el => {
-        const rect = el.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
-        const dx = centerX - mx;
-        const dy = centerY - my;
+      // Pure memory loop - ZERO DOM reads / layout thrashing
+      for (let i = 0; i < targets.length; i++) {
+        const item = targets[i];
+        const dx = item.docCenterX - pageMouseX;
+        const dy = item.docCenterY - pageMouseY;
         const dist = Math.sqrt(dx * dx + dy * dy);
 
         // Attraction threshold radius: 45px
-        if (dist < 45) {
-          if (dist < closestDist) {
-            closestDist = dist;
-            closestEl = el;
+        if (dist < 45 && dist < closestDist) {
+          closestDist = dist;
+          closestEl = item.el;
+          // Viewport relative center
+          closestCenterX = item.docCenterX - scrollX;
+          closestCenterY = item.docCenterY - scrollY;
 
-            // Pull strength decays as distance increases
-            const pullRatio = 1 - (dist / 45);
-            const strength = 0.55 * pullRatio;
-            targetX = mx + (centerX - mx) * strength;
-            targetY = my + (centerY - my) * strength;
-          }
+          // Pull strength decays as distance increases
+          const pullRatio = 1 - (dist / 45);
+          const strength = 0.55 * pullRatio;
+          targetX = mx + (closestCenterX - mx) * strength;
+          targetY = my + (closestCenterY - my) * strength;
         }
-      });
+      }
 
       // Update cursor position with spring animation
       xTo(targetX);
       yTo(targetY);
 
       // Update trail dot positions
-      trailXTo.forEach(anim => anim(targetX));
-      trailYTo.forEach(anim => anim(targetY));
+      for (let i = 0; i < trailXTo.length; i++) {
+        trailXTo[i](targetX);
+        trailYTo[i](targetY);
+      }
 
-      // Apply subtle physical pull to the magnetic elements themselves
-      const prevMagnetics = document.querySelectorAll('.is-magnetic-active');
-      prevMagnetics.forEach(el => {
-        if (el !== closestEl) {
-          el.classList.remove('is-magnetic-active');
-          gsap.to(el, { x: 0, y: 0, duration: 0.4, ease: "power2.out" });
-        }
-      });
+      // Manage magnetic pull on active element via direct ref (zero querySelectorAll)
+      const prevActive = activeMagneticRef.current;
+      if (prevActive && prevActive !== closestEl) {
+        prevActive.classList.remove('is-magnetic-active');
+        gsap.to(prevActive, { x: 0, y: 0, duration: 0.4, ease: "power2.out", overwrite: "auto" });
+        activeMagneticRef.current = null;
+      }
 
       if (closestEl) {
-        closestEl.classList.add('is-magnetic-active');
-        const rect = closestEl.getBoundingClientRect();
-        const centerX = rect.left + rect.width / 2;
-        const centerY = rect.top + rect.height / 2;
+        if (prevActive !== closestEl) {
+          closestEl.classList.add('is-magnetic-active');
+          activeMagneticRef.current = closestEl;
+        }
         // Pull target element 20% of the distance to the mouse
-        const pullX = (mx - centerX) * 0.20;
-        const pullY = (my - centerY) * 0.20;
+        const pullX = (mx - closestCenterX) * 0.20;
+        const pullY = (my - closestCenterY) * 0.20;
         gsap.to(closestEl, { x: pullX, y: pullY, duration: 0.3, overwrite: "auto" });
       }
     };
 
-    // Custom hover state state matching
+    // Custom hover state state matching via fast event delegation
     const handleMouseOver = (e) => {
       const target = e.target.closest('a, button, .magnetic-target, .scroll-icon, .hud');
       if (!target) {
@@ -141,7 +188,7 @@ export function CustomCursor() {
       gsap.to(cursor, { scale: 1, duration: 0.35, ease: "elastic.out(1, 0.5)" });
     };
 
-    // Velocity tracker in gsap.ticker loop (runs at 60 FPS)
+    // Velocity tracker in gsap.ticker loop (runs at refresh rate)
     const updateVelocity = () => {
       const dx = mouse.current.x - prevMouse.current.x;
       const dy = mouse.current.y - prevMouse.current.y;
@@ -153,17 +200,27 @@ export function CustomCursor() {
       // Adjust particle trail opacity dynamically by mouse velocity
       // Fades out completely when mouse stops
       const targetOpacity = Math.min(Math.max((velocity.current - 3) / 17, 0), 1) * 0.4;
-      trailRefs.current.forEach(dot => {
+      const trail = trailRefs.current;
+      for (let i = 0; i < trail.length; i++) {
+        const dot = trail[i];
         if (dot) {
           gsap.to(dot, { opacity: targetOpacity, duration: 0.15, overwrite: "auto" });
         }
-      });
+      }
     };
 
-    window.addEventListener('mousemove', handleMouseMove);
-    window.addEventListener('mouseover', handleMouseOver);
-    window.addEventListener('mousedown', handleMouseDown);
-    window.addEventListener('mouseup', handleMouseUp);
+    // MutationObserver to refresh magnetic cache when projects expand/collapse or DOM updates
+    const observer = new MutationObserver(() => {
+      scheduleCacheUpdate();
+    });
+    observer.observe(document.body, { childList: true, subtree: true, attributes: true, attributeFilter: ['class', 'style'] });
+
+    window.addEventListener('mousemove', handleMouseMove, { passive: true });
+    window.addEventListener('mouseover', handleMouseOver, { passive: true });
+    window.addEventListener('mousedown', handleMouseDown, { passive: true });
+    window.addEventListener('mouseup', handleMouseUp, { passive: true });
+    window.addEventListener('resize', scheduleCacheUpdate, { passive: true });
+    window.addEventListener('scroll', scheduleCacheUpdate, { passive: true });
     gsap.ticker.add(updateVelocity);
 
     return () => {
@@ -171,13 +228,15 @@ export function CustomCursor() {
       window.removeEventListener('mouseover', handleMouseOver);
       window.removeEventListener('mousedown', handleMouseDown);
       window.removeEventListener('mouseup', handleMouseUp);
+      window.removeEventListener('resize', scheduleCacheUpdate);
+      window.removeEventListener('scroll', scheduleCacheUpdate);
       gsap.ticker.remove(updateVelocity);
+      observer.disconnect();
 
-      // Clean up any remaining magnetic animations
-      const prevMagnetics = document.querySelectorAll('.is-magnetic-active');
-      prevMagnetics.forEach(el => {
-        gsap.killTweensOf(el);
-      });
+      if (activeMagneticRef.current) {
+        gsap.killTweensOf(activeMagneticRef.current);
+        gsap.set(activeMagneticRef.current, { x: 0, y: 0 });
+      }
     };
   }, []);
 

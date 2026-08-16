@@ -84,6 +84,8 @@ export function ProjectCard({ project, index = 0, isExpanded, isFaded, onExpand 
         src={project.image}
         alt={`${project.name} preview`}
         className="sp-card__img"
+        loading="lazy"
+        decoding="async"
       />
       <div className="sp-card__bar">
         <h3 className="sp-card__name">{project.name}</h3>
@@ -129,6 +131,7 @@ export function ExpandedCard({ project, onCollapse }) {
         src={project.image}
         alt={`${project.name} detail`}
         className="sp-expanded__screenshot"
+        decoding="async"
       />
 
       <div className="sp-expanded__body">

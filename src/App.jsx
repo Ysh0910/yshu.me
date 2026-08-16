@@ -1,12 +1,13 @@
-import React, { useRef, useState, useCallback, useEffect } from 'react';
+import React, { useRef, useState, useCallback, useEffect, lazy, Suspense } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import { useGSAP } from '@gsap/react';
 import { LayoutGroup, AnimatePresence, motion } from 'framer-motion';
-import TechOrb from './TechOrb';
 import { CustomCursor } from './CustomCursor';
 import { PROJECTS_DATA, DEFAULT_PROJECT_IMAGE } from './data/projectsData';
 import { ProjectCard, ExpandedCard } from './ProjectCard';
+
+const TechOrb = lazy(() => import('./TechOrb'));
 import {
   SiPython, SiJavascript, SiCplusplus, SiReact, SiNextdotjs, SiHtml5,
   SiTailwindcss, SiBootstrap, SiNodedotjs, SiExpress, SiFastapi, SiMongodb,
@@ -140,13 +141,13 @@ function App() {
       const duration = video.duration;
       if (isNaN(duration) || duration === 0) return;
 
-      // 1. Sync full-page scroll progress to background video currentTime
+      // 1. Sync full-page scroll progress to background video currentTime with smooth scrubbing
       const videoTimeline = gsap.timeline({
         scrollTrigger: {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: true
+          scrub: 0.45
         }
       });
 
@@ -163,7 +164,7 @@ function App() {
           trigger: containerRef.current,
           start: 'top top',
           end: 'bottom bottom',
-          scrub: true
+          scrub: 0.2
         }
       });
 
@@ -391,6 +392,7 @@ function App() {
         <video
           ref={videoRef}
           src="/hero-optimized-1080p.mp4"
+          poster="/hero-poster.webp"
           type="video/mp4"
           playsInline
           muted
@@ -566,8 +568,18 @@ function App() {
               {/* Radial Soft Glass Backplate */}
               <div className="wheel-glass-backplate"></div>
 
-              {/* 3D Tech Globe Component (Three.js WebGL Renderer) */}
-              <TechOrb />
+              {/* 3D Tech Globe Component (Three.js WebGL Renderer - Lazy Loaded) */}
+              <Suspense fallback={
+                <div className="tech-orb-wrapper">
+                  <div className="tech-orb-canvas" />
+                  <div className="tech-orb-center-label magnetic-target">
+                    <span className="orb-title">TECHNICAL</span>
+                    <span className="orb-accent">ARSENAL</span>
+                  </div>
+                </div>
+              }>
+                <TechOrb />
+              </Suspense>
 
               {/* Electric Current SVG Lines connecting Globe to Cards */}
               <div className="technical-wheel-container">

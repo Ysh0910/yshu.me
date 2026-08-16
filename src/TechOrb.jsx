@@ -16,9 +16,9 @@ export default function TechOrb() {
     const camera = new THREE.PerspectiveCamera(45, width / height, 0.1, 1000);
     camera.position.z = 5.5;
 
-    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+    const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true, powerPreference: "high-performance" });
     renderer.setSize(width, height);
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
     container.appendChild(renderer.domElement);
 
     // 2. Lights - Cool Silver & White Highlights
@@ -112,11 +112,11 @@ export default function TechOrb() {
     const particleSystem = new THREE.Points(particlesGeo, particlesMat);
     scene.add(particleSystem);
 
-    // 7. Animation Loop - Smooth 3D Rotations
-    let animationFrameId;
-    const animate = () => {
-      animationFrameId = requestAnimationFrame(animate);
+    // 7. Animation Loop with Viewport Visibility Pausing
+    let animationFrameId = null;
+    let isVisible = false;
 
+    const render = () => {
       glassSphere.rotation.y += 0.003;
       wireSphere.rotation.y -= 0.002;
       wireSphere.rotation.x += 0.001;
@@ -129,22 +129,56 @@ export default function TechOrb() {
 
       renderer.render(scene, camera);
     };
-    animate();
+
+    const animate = () => {
+      if (!isVisible) return;
+      render();
+      animationFrameId = requestAnimationFrame(animate);
+    };
+
+    // IntersectionObserver to start loop only when in viewport and pause when scrolled away
+    const observer = new IntersectionObserver(
+      (entries) => {
+        const entry = entries[0];
+        const wasVisible = isVisible;
+        isVisible = entry.isIntersecting;
+
+        if (isVisible && !wasVisible) {
+          // Resume animation smoothly
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = requestAnimationFrame(animate);
+        } else if (!isVisible && wasVisible) {
+          // Pause animation to save 100% GPU/CPU cycles when off-screen
+          cancelAnimationFrame(animationFrameId);
+          animationFrameId = null;
+        }
+      },
+      { threshold: 0.05 }
+    );
+
+    observer.observe(container);
 
     // 8. Handle Resize
     const handleResize = () => {
       if (!container) return;
       const w = container.clientWidth;
       const h = container.clientHeight;
+      if (w === 0 || h === 0) return;
       camera.aspect = w / h;
       camera.updateProjectionMatrix();
       renderer.setSize(w, h);
+      if (isVisible) {
+        renderer.render(scene, camera);
+      }
     };
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', handleResize, { passive: true });
 
     return () => {
+      observer.disconnect();
       window.removeEventListener('resize', handleResize);
-      cancelAnimationFrame(animationFrameId);
+      if (animationFrameId) {
+        cancelAnimationFrame(animationFrameId);
+      }
       if (renderer.domElement && container.contains(renderer.domElement)) {
         container.removeChild(renderer.domElement);
       }
