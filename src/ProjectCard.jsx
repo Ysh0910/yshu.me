@@ -1,28 +1,82 @@
-import { motion, AnimatePresence } from "framer-motion";
+import { useRef, useState, useEffect } from "react";
+import { motion, useInView, AnimatePresence } from "framer-motion";
 import { FiExternalLink, FiGithub, FiX } from "react-icons/fi";
 import "./project-card.css";
 
 const SPRING = { type: "spring", stiffness: 300, damping: 30 };
 
+// Helper to determine grid column index for left-to-right staggered wave
+function getColIndex(idx) {
+  if (typeof window === "undefined") return idx % 4;
+  const w = window.innerWidth;
+  if (w <= 599) return 0;       // 1 column layout
+  if (w <= 899) return idx % 2; // 2 column layout
+  if (w <= 1199) return idx % 3;// 3 column layout
+  return idx % 4;               // 4 column layout
+}
+
 /* ─── Collapsed grid card ─── */
-export function ProjectCard({ project, isExpanded, isFaded, onExpand }) {
+export function ProjectCard({ project, index = 0, isExpanded, isFaded, onExpand }) {
   const status = project.team === "solo" ? "Solo Build" : "Team Build";
   const tagClass = project.team === "solo" ? "sp-card__tag--solo" : "sp-card__tag--team";
+
+  const cardRef = useRef(null);
+  const isInView = useInView(cardRef, { once: true, margin: "0px 0px -15% 0px", amount: 0.15 });
+  const [hasRevealed, setHasRevealed] = useState(false);
+
+  useEffect(() => {
+    if (isInView && !hasRevealed) {
+      const col = getColIndex(index);
+      const delayMs = col * 140 + 1200;
+      const timer = setTimeout(() => {
+        setHasRevealed(true);
+      }, delayMs);
+      return () => clearTimeout(timer);
+    }
+  }, [isInView, hasRevealed, index]);
 
   /* When this card is the expanded one, render a ghost placeholder to hold grid space */
   if (isExpanded) {
     return <div className="sp-ghost" />;
   }
 
+  const colIndex = getColIndex(index);
+  const staggerDelay = colIndex * 0.14; // 140ms rhythmic stagger per column for an unhurried, wave-like reveal
+
+  const initialValues = hasRevealed
+    ? { opacity: isFaded ? 0.22 : 1, y: 0, scale: isFaded ? 0.95 : 1, filter: "blur(0px)" }
+    : { opacity: 0, y: 40, scale: 0.94, filter: "blur(10px)" };
+
+  const animateValues = !hasRevealed
+    ? isInView
+      ? { opacity: 1, y: 0, scale: 1, filter: "blur(0px)" }
+      : { opacity: 0, y: 40, scale: 0.94, filter: "blur(10px)" }
+    : { opacity: isFaded ? 0.22 : 1, y: 0, scale: isFaded ? 0.95 : 1, filter: "blur(0px)" };
+
+  const transitionValues = !hasRevealed
+    ? {
+        duration: 1.15,
+        ease: [0.16, 1, 0.3, 1], // Ultra-luxurious quintic ease-out momentum
+        delay: isInView ? staggerDelay : 0,
+      }
+    : {
+        duration: 0.3,
+        ease: [0.2, 0.8, 0.2, 1],
+      };
+
   return (
     <motion.div
+      ref={cardRef}
       layoutId={project.id}
-      className={`sp-card project-card-animate ${isFaded ? "sp-card--faded" : ""}`}
-      animate={isFaded ? {
-        opacity: 0.22,
-        scale: 0.95,
-      } : undefined}
-      transition={{ duration: 0.25, ease: "easeOut" }}
+      className={`sp-card ${isFaded ? "sp-card--faded" : ""}`}
+      initial={initialValues}
+      animate={animateValues}
+      transition={transitionValues}
+      onAnimationComplete={() => {
+        if (isInView && !hasRevealed) {
+          setHasRevealed(true);
+        }
+      }}
       onClick={() => !isFaded && onExpand(project.id)}
       style={{ cursor: isFaded ? "default" : "pointer", pointerEvents: isFaded ? "none" : "auto" }}
     >
