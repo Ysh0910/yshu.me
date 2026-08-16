@@ -1851,3 +1851,34 @@ a.cta-talk-value:hover {
     font-size: 44px;
   }
 }
+
+/* ==========================================================================
+   OPENING INTRO VIDEO OVERLAY (NAMASTE)
+   ========================================================================== */
+.intro-video-overlay {
+  position: fixed;
+  inset: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 999999;
+  background-color: #000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  cursor: none !important;
+  pointer-events: auto;
+}
+
+.intro-video-element {
+  width: 100vw;
+  height: 100vh;
+  object-fit: cover;
+  cursor: none !important;
+}
+
+/* Hide default cursor and all pointer indicators while intro is playing */
+body.intro-playing,
+body.intro-playing * {
+  cursor: none !important;
+}

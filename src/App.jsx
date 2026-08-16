@@ -37,7 +37,40 @@ function App() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [expandedId, setExpandedId] = useState(null);
   const [isMobile, setIsMobile] = useState(false);
+  const [isIntroActive, setIsIntroActive] = useState(true);
+  const introVideoRef = useRef(null);
   const stageRef = useRef(null);
+
+  const handleIntroComplete = useCallback(() => {
+    setIsIntroActive(false);
+  }, []);
+
+  // Hide cursor and lock body scroll while intro video is playing
+  useEffect(() => {
+    if (isIntroActive) {
+      document.body.classList.add('intro-playing');
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.classList.remove('intro-playing');
+      document.body.style.overflow = '';
+    }
+    return () => {
+      document.body.classList.remove('intro-playing');
+      document.body.style.overflow = '';
+    };
+  }, [isIntroActive]);
+
+  // Attempt to play intro video on initial mount
+  useEffect(() => {
+    if (introVideoRef.current) {
+      const playPromise = introVideoRef.current.play();
+      if (playPromise !== undefined) {
+        playPromise.catch(() => {
+          // In case browser policy restricts autoplay, allow seamless fallback
+        });
+      }
+    }
+  }, []);
 
   const displayedProjects = isExpanded ? PROJECTS_DATA : PROJECTS_DATA.slice(0, 4);
   const expandedProject = expandedId
@@ -322,8 +355,32 @@ function App() {
       {/* Fixed Page Background Layer */}
       <div className="fixed-background-layer" />
 
-      {/* Premium Custom Cursor System */}
-      <CustomCursor />
+      {/* Opening Intro Video Overlay */}
+      <AnimatePresence>
+        {isIntroActive && (
+          <motion.div
+            key="intro-overlay"
+            className="intro-video-overlay"
+            initial={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
+          >
+            <video
+              ref={introVideoRef}
+              src="/edited intro 2.mp4"
+              className="intro-video-element"
+              autoPlay
+              playsInline
+              muted
+              onEnded={handleIntroComplete}
+              onError={handleIntroComplete}
+            />
+          </motion.div>
+        )}
+      </AnimatePresence>
+
+      {/* Premium Custom Cursor System (Active only after intro completes) */}
+      {!isIntroActive && <CustomCursor />}
 
       {/* Top progress bar */}
       <div ref={progressBarRef} className="progress-bar"></div>
