@@ -214,6 +214,22 @@ function App() {
         }
       );
 
+      // 5.5. Projects Section Reveal Animations (All cards transition together simultaneously)
+      gsap.fromTo(".project-card-animate",
+        { opacity: 0, y: 35 },
+        {
+          opacity: 1,
+          y: 0,
+          duration: 0.85,
+          ease: "power2.out",
+          scrollTrigger: {
+            trigger: "#projects",
+            start: "top 80%",
+            toggleActions: "play none none reverse"
+          }
+        }
+      );
+
       // 6. CTA / Contact Section Reveal Animations
       gsap.fromTo(".cta-hero-animate",
         { opacity: 0, y: 40 },

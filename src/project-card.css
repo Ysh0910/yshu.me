@@ -18,6 +18,10 @@
 }
 
 
+.project-card-animate {
+  will-change: transform, opacity;
+}
+
 /* "Click for details" hover hint */
 .sp-card::after {
   content: 'Click for details';

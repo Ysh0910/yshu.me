@@ -17,11 +17,11 @@ export function ProjectCard({ project, isExpanded, isFaded, onExpand }) {
   return (
     <motion.div
       layoutId={project.id}
-      className={`sp-card ${isFaded ? "sp-card--faded" : ""}`}
-      animate={{
-        opacity: isFaded ? 0.22 : 1,
-        scale: isFaded ? 0.95 : 1,
-      }}
+      className={`sp-card project-card-animate ${isFaded ? "sp-card--faded" : ""}`}
+      animate={isFaded ? {
+        opacity: 0.22,
+        scale: 0.95,
+      } : undefined}
       transition={{ duration: 0.25, ease: "easeOut" }}
       onClick={() => !isFaded && onExpand(project.id)}
       style={{ cursor: isFaded ? "default" : "pointer", pointerEvents: isFaded ? "none" : "auto" }}
