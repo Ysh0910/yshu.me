@@ -726,22 +726,23 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 12px;
-    height: 12px;
-    margin-top: -6px;
-    /* Centered relative to the registration point */
-    margin-left: -6px;
-    background-color: transparent;
-    border: 1px solid rgba(255, 255, 255, 0.45);
+    width: 16px;
+    height: 16px;
+    margin-top: -8px;
+    margin-left: -8px;
+    background-color: rgba(255, 255, 255, 0.08);
+    border: 1.5px solid rgba(255, 255, 255, 0.75);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9999;
     backdrop-filter: blur(4px);
-    box-shadow: 0 0 15px rgba(255, 0, 127, 0.25);
+    -webkit-backdrop-filter: blur(4px);
+    box-shadow: 
+      0 0 16px rgba(255, 0, 127, 0.5),
+      0 0 32px rgba(255, 87, 34, 0.25),
+      inset 0 0 6px rgba(255, 255, 255, 0.2);
     transform: translate3d(0, 0, 0);
-    /* GPU acceleration */
     will-change: transform, width, height, border-radius, background-color, box-shadow;
-    /* Smooth transitions for dimensions, alignment offset, border, and glow effects */
     transition:
       width 0.3s cubic-bezier(0.19, 1, 0.22, 1),
       height 0.3s cubic-bezier(0.19, 1, 0.22, 1),
@@ -757,11 +758,12 @@ body {
     position: fixed;
     top: 0;
     left: 0;
-    width: 3px;
-    height: 3px;
-    margin-top: -1.5px;
-    margin-left: -1.5px;
-    background-color: rgba(255, 0, 127, 0.4);
+    width: 4px;
+    height: 4px;
+    margin-top: -2px;
+    margin-left: -2px;
+    background-color: rgba(255, 0, 127, 0.6);
+    box-shadow: 0 0 8px rgba(255, 0, 127, 0.8);
     border-radius: 50%;
     pointer-events: none;
     z-index: 9998;
@@ -959,6 +961,8 @@ body {
 .pulse-line {
   stroke-dasharray: 14 180;
   animation: pulseTravel 3.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  animation-play-state: running !important;
+  will-change: stroke-dashoffset, opacity;
 }
 
 .pulse-line-1 {
@@ -1212,12 +1216,13 @@ body {
   flex-direction: column;
   align-items: center;
   text-align: center;
-  /* Gradient: transparent top (video/scrim shows through) → ink-blue at bottom
-     This merges the plum scrim fade-out directly into the projects background */
+  position: relative;
+  z-index: 5;
+  /* Seamless plum-to-ink-blue gradient bridge without transparency */
   background: linear-gradient(
     to bottom,
-    transparent 0%,
-    rgba(7, 9, 18, 0.6) 50%,
+    #150318 0%,
+    #0e0717 35%,
     #070912 100%
   );
   /* Stretch edge-to-edge so the gradient covers full width */

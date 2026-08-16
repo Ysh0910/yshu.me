@@ -17,6 +17,10 @@
     0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
+.project-card-animate {
+  will-change: opacity;
+}
+
 /* "Click for details" hover hint */
 .sp-card::after {
   content: 'Click for details';
@@ -106,12 +110,20 @@
   pointer-events: none;
 }
 
+/* Faded card isolation when neighbor is expanded */
+.sp-card.sp-card--faded {
+  z-index: 1;
+  pointer-events: none;
+}
+
 /* ---------- Scrim (background dimming) ---------- */
 .sp-scrim {
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: rgba(0, 0, 0, 0.35);
+  background: rgba(3, 5, 10, 0.68);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
   pointer-events: auto;
 }
 
@@ -133,17 +145,19 @@
 
 /* ---------- Expanded card in stage ---------- */
 .sp-expanded {
+  position: relative;
+  z-index: 50;
   width: 100%;
   border-radius: 18px;
   overflow: hidden;
-  background: rgba(10, 14, 26, 0.82);
-  backdrop-filter: blur(28px);
-  -webkit-backdrop-filter: blur(28px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(12, 17, 30, 0.65);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border: 1px solid rgba(255, 255, 255, 0.14);
   box-shadow:
-    0 8px 48px rgba(0, 0, 0, 0.55),
-    0 0 0 1px rgba(255, 255, 255, 0.07),
-    0 0 80px rgba(0, 0, 0, 0.3);
+    0 24px 70px rgba(0, 0, 0, 0.8),
+    0 0 0 1px rgba(255, 255, 255, 0.08),
+    0 0 60px rgba(255, 87, 34, 0.15);
   color: #fff;
 }
 

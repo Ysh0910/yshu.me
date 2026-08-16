@@ -23,10 +23,12 @@ export function CustomCursor() {
     if (!cursor) return;
 
     // Set initial position out of view to prevent pop-in
-    gsap.set(cursor, { x: -100, y: -100 });
+    gsap.set(cursor, { x: -100, y: -100, opacity: 0 });
     trailRefs.current.forEach(dot => {
-      if (dot) gsap.set(dot, { x: -100, y: -100 });
+      if (dot) gsap.set(dot, { x: -100, y: -100, opacity: 0 });
     });
+
+    let hasMoved = false;
 
     // Create quickTo animators for smooth spring-like translation
     const xTo = gsap.quickTo(cursor, "x", { duration: 0.35, ease: "power2.out" });
@@ -44,6 +46,11 @@ export function CustomCursor() {
       const mx = e.clientX;
       const my = e.clientY;
       mouse.current = { x: mx, y: my };
+
+      if (!hasMoved) {
+        hasMoved = true;
+        gsap.to(cursor, { opacity: 1, duration: 0.25 });
+      }
 
       let targetX = mx;
       let targetY = my;
