@@ -871,10 +871,10 @@ function App() {
             <footer className="cta-footer cta-footer-animate">
               <span className="cta-footer-brand">YASHWANTH</span>
               <nav className="cta-footer-nav" aria-label="Footer navigation">
-                <a href="#home" className="cta-footer-link magnetic-target">home</a>
-                <a href="#stack" className="cta-footer-link magnetic-target">stack</a>
-                <a href="#projects" className="cta-footer-link magnetic-target">projects</a>
-                <a href="#contact" className="cta-footer-link magnetic-target">contact</a>
+                <a href="#home" className="cta-footer-link magnetic-target">Home</a>
+                <a href="#stack" className="cta-footer-link magnetic-target">Stack</a>
+                <a href="#projects" className="cta-footer-link magnetic-target">Projects</a>
+                <a href="#contact" className="cta-footer-link magnetic-target">Contact</a>
               </nav>
               <span className="cta-footer-copy">© {new Date().getFullYear()} YASHWANTH. BUILT WITH PASSION.</span>
             </footer>
