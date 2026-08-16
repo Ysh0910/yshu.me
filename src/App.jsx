@@ -11,7 +11,8 @@ import {
   SiPython, SiJavascript, SiCplusplus, SiReact, SiNextdotjs, SiHtml5,
   SiTailwindcss, SiBootstrap, SiNodedotjs, SiExpress, SiFastapi, SiMongodb,
   SiPostgresql, SiPandas, SiScikitlearn, SiTensorflow, SiSolidity, SiEthereum,
-  SiGit, SiDocker, SiCloudinary, SiGooglecolab, SiAnthropic
+  SiGit, SiDocker, SiCloudinary, SiGooglecolab, SiAnthropic,
+  SiLeetcode, SiDiscord
 } from 'react-icons/si';
 import { TbBrandCss3 } from 'react-icons/tb';
 import { FaJava, FaDatabase, FaDiagramProject, FaCodeBranch } from 'react-icons/fa6';
@@ -769,7 +770,7 @@ function App() {
                 </div>
               </div>
 
-              {/* Right: 2×2 Social Links */}
+              {/* Right: 3×2 Social Links */}
               <div className="cta-social-grid">
 
                 <a
@@ -803,6 +804,21 @@ function App() {
                 </a>
 
                 <a
+                  id="cta-leetcode-link"
+                  href="https://leetcode.com/u/Ysh0910/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-social-card cta-card-animate magnetic-target"
+                >
+                  <div className="cta-social-top">
+                    <SiLeetcode size={22} />
+                    <FiArrowUpRight size={16} className="cta-social-arrow" />
+                  </div>
+                  <span className="cta-social-name">LeetCode</span>
+                  <span className="cta-social-handle">@Ysh0910</span>
+                </a>
+
+                <a
                   id="cta-twitter-link"
                   href="https://twitter.com/yashwanthshu"
                   target="_blank"
@@ -829,6 +845,21 @@ function App() {
                     <FiArrowUpRight size={16} className="cta-social-arrow" />
                   </div>
                   <span className="cta-social-name">Instagram</span>
+                  <span className="cta-social-handle">@yashwanthshu</span>
+                </a>
+
+                <a
+                  id="cta-discord-link"
+                  href="https://discord.com/users/yashwanthshu"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="cta-social-card cta-card-animate magnetic-target"
+                >
+                  <div className="cta-social-top">
+                    <SiDiscord size={22} />
+                    <FiArrowUpRight size={16} className="cta-social-arrow" />
+                  </div>
+                  <span className="cta-social-name">Discord</span>
                   <span className="cta-social-handle">@yashwanthshu</span>
                 </a>
 
