@@ -150,17 +150,19 @@ function App() {
         }
       );
 
-      // 4. Skills Section Scrim Opacity (Fades in over hero -> remains solid plum throughout stack)
+      // 4. Skills Section Scrim Opacity Rhythm (Original gradual entrance over hero -> solid plum through stack)
       if (scrimRef.current) {
         gsap.timeline({
           scrollTrigger: {
             trigger: "#stack",
             start: "top 60%",
-            end: "top 20%",
+            end: "bottom 35%",
             scrub: true
           }
         })
-        .fromTo(scrimRef.current, { opacity: 0 }, { opacity: 1, ease: "power1.inOut" });
+        .to(scrimRef.current, { opacity: 0, duration: 0.08 })
+        .to(scrimRef.current, { opacity: 1, ease: "power1.inOut", duration: 0.35 })
+        .to(scrimRef.current, { opacity: 1, duration: 0.57 });
       }
 
       // 5. Skills Section Reveal Animations
@@ -207,36 +209,6 @@ function App() {
             trigger: ".skills-outro-banner",
             start: "top 92%",
             toggleActions: "play none none reverse"
-          }
-        }
-      );
-
-      // 5.5. Projects Section Reveal Animations (Scroll-Synced Opacity Scrub)
-      gsap.fromTo(".project-card-animate",
-        { opacity: 0 },
-        {
-          opacity: 1,
-          stagger: 0.08,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".projects-grid",
-            start: "top 85%",
-            end: "top 35%",
-            scrub: 1
-          }
-        }
-      );
-
-      gsap.fromTo(".btn-see-all-wrapper",
-        { opacity: 0 },
-        {
-          opacity: 1,
-          ease: "none",
-          scrollTrigger: {
-            trigger: ".btn-see-all-wrapper",
-            start: "top 90%",
-            end: "top 60%",
-            scrub: 1
           }
         }
       );

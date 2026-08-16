@@ -17,9 +17,6 @@
     0 0 0 1px rgba(255, 255, 255, 0.06);
 }
 
-.project-card-animate {
-  will-change: opacity;
-}
 
 /* "Click for details" hover hint */
 .sp-card::after {
