@@ -87,7 +87,7 @@ export const PROJECTS_DATA = [
     id: 'dhanvantri',
     name: 'Dhanvantri',
     team: 'team',
-    image: DEFAULT_PROJECT_IMAGE,
+    image: '/Dhanvantri.jpeg',
     description: 'A hand-gesture-controlled patient records system paired with BLE wearable integration for real-time vitals tracking.',
     contribution: 'Built the BLE wearable scripts (Mi Band and Firebolt smartwatch integration), the complete frontend (patient registration, reports & records), and connected it end-to-end with the backend and IoT devices.',
     githubUrl: 'https://github.com/Ysh0910/Dhanvantri'
@@ -118,7 +118,7 @@ export const PROJECTS_DATA = [
     id: 'ai-evaluator',
     name: 'AI Evaluator',
     team: 'solo',
-    image: DEFAULT_PROJECT_IMAGE,
+    image: '/AI_Evaluator.png',
     description: 'An automated exam grading system — feeds question papers, student answers, and reference material through Gemini to generate grades with detailed feedback.',
     highlights: [
       'Built on Google\'s Agent Development Kit (ADK) + Gemini for agentic grading',
