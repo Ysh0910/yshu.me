@@ -63,15 +63,22 @@ function App() {
 
   // Attempt to play intro video on initial mount
   useEffect(() => {
-    if (introVideoRef.current) {
-      const playPromise = introVideoRef.current.play();
+    const video = introVideoRef.current;
+    if (video) {
+      video.muted = true;
+      video.defaultMuted = true;
+      video.setAttribute('playsinline', '');
+      video.setAttribute('webkit-playsinline', '');
+
+      const playPromise = video.play();
       if (playPromise !== undefined) {
         playPromise.catch(() => {
-          // In case browser policy restricts autoplay, allow seamless fallback
+          // If browser policy restricts autoplay, seamlessly transition to hero
+          handleIntroComplete();
         });
       }
     }
-  }, []);
+  }, [handleIntroComplete]);
 
   const displayedProjects = isExpanded ? PROJECTS_DATA : PROJECTS_DATA.slice(0, 4);
   const expandedProject = expandedId
@@ -373,6 +380,8 @@ function App() {
               autoPlay
               playsInline
               muted
+              defaultMuted
+              preload="auto"
               onEnded={handleIntroComplete}
               onError={handleIntroComplete}
             />
